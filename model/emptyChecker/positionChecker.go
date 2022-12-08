@@ -32,5 +32,7 @@ func NewRectangleChecker(leftTop model.Pos, rightDown model.Pos) EmptyChecker {
 			hashMap[model.Pos{X: x, Y: y}] = struct{}{}
 		}
 	}
+
+	p.emptySet = hashMap
 	return p
 }
