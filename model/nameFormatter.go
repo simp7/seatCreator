@@ -1,7 +1,7 @@
 package model
 
 type NameInput struct {
-	Column   int
+	Row      int
 	Index    int
 	SeatType string
 }

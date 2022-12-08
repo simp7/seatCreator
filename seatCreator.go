@@ -28,8 +28,8 @@ type RowInput struct {
 	initialNumber int
 	amount        int
 	emptyPos      []int
-	columnNumber  int
-	nameGenerator model.NameFormatter
+	rowNumber     int
+	nameFormatter model.NameFormatter
 }
 
 func getPositionList(start int, amount int, emptyList []int) []int {
@@ -55,7 +55,7 @@ func newHorizontalRow(input RowInput) *Row {
 
 	for i, x := range posList {
 		nameInput := model.NameInput{
-			Column:   input.columnNumber,
+			Row:      input.rowNumber,
 			Index:    i,
 			SeatType: seatType,
 		}
@@ -64,8 +64,8 @@ func newHorizontalRow(input RowInput) *Row {
 			SeatType: seatType,
 		}
 
-		shortName := input.nameGenerator.Short(nameInput)
-		name := input.nameGenerator.Long(nameInput)
+		shortName := input.nameFormatter.Short(nameInput)
+		name := input.nameFormatter.Long(nameInput)
 		seats = append(seats, model.NewSeat(inputBase, shortName, name))
 	}
 
@@ -75,15 +75,16 @@ func newHorizontalRow(input RowInput) *Row {
 	return row
 }
 
-type Blocks interface {
+type Block interface {
 	fmt.Stringer
 }
 
-type Block struct {
-	row []*Row
+type HorizontalBlock struct {
+	row        []*Row
+	startPoint model.Pos
 }
 
-func (b Block) String() string {
+func (b HorizontalBlock) String() string {
 	result := make([]string, 0)
 	for _, v := range b.row {
 		result = append(result, v.String())
@@ -91,7 +92,12 @@ func (b Block) String() string {
 	return strings.Join(result, ", ")
 }
 
-func (b *Block) Set(s model.SeatBase) {
+func (b HorizontalBlock) findRow(row int) {
+	for _, v := range b.row {
+		if len(v.Seats) != 0 && (v.Seats[0].Y == row) {
+			return
+		}
+	}
 }
 
 type BlockInput struct {
@@ -102,11 +108,11 @@ type BlockInput struct {
 	nameGenerator model.NameFormatter
 }
 
-func newHorizontalBlock(input BlockInput) *Block {
+func newHorizontalBlock(input BlockInput) Block {
 	rowInput := make([]RowInput, 0)
 
-	for columnNumber := 1; columnNumber <= input.ySize; columnNumber++ {
-		y := input.startingPoint.Y + columnNumber - 1
+	for rowNumber := 1; rowNumber <= input.ySize; rowNumber++ {
+		y := input.startingPoint.Y + rowNumber - 1
 		emptyPos := make([]int, 0)
 		for x := input.startingPoint.X; x < input.startingPoint.X+input.xSize; x++ {
 			if input.emptyChecker.IsEmpty(x, y) {
@@ -122,15 +128,16 @@ func newHorizontalBlock(input BlockInput) *Block {
 			initialNumber: 1,
 			amount:        input.xSize - len(emptyPos),
 			emptyPos:      emptyPos,
-			columnNumber:  columnNumber,
-			nameGenerator: input.nameGenerator,
+			rowNumber:     rowNumber,
+			nameFormatter: input.nameGenerator,
 		})
 	}
 
-	block := new(Block)
+	block := new(HorizontalBlock)
 	for _, v := range rowInput {
 		block.row = append(block.row, newHorizontalRow(v))
 	}
+	block.startPoint = input.startingPoint.Pos
 
 	return block
 }
