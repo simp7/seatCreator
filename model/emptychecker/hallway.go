@@ -21,7 +21,7 @@ type horizontalHallwayChecker hallwayChecker
 
 func (h horizontalHallwayChecker) IsEmpty(x int, y int) bool {
 	for _, pos := range h.positions {
-		if pos == x {
+		if pos == y {
 			return true
 		}
 	}
