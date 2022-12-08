@@ -20,7 +20,7 @@ func (s standardGenerator) Long(input model.NameInput) string {
 }
 
 func (s standardGenerator) Short(input model.NameInput) string {
-	return fmt.Sprintf("%c-%s", rune(64+input.Column), twoDigit(input.Index+1))
+	return fmt.Sprintf("%c%s", rune(64+input.Column), twoDigit(input.Index+1))
 }
 
 func Standard() model.NameFormatter {
