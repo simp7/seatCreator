@@ -9,15 +9,6 @@ import (
 	nameFormatter "github.com/simp7/seatCreator/model/nameformatter"
 )
 
-func newSeat(base model.SeatBase, shortName string, name string) model.Seat {
-	result := model.Seat{
-		SeatBase:  base,
-		ShortName: shortName,
-		Name:      name,
-	}
-	return result
-}
-
 type Row struct {
 	Seats []model.Seat
 }
@@ -55,36 +46,6 @@ func getPositionList(start int, amount int, emptyList []int) []int {
 	return result
 }
 
-func newVerticalRow(input RowInput) *Row {
-	x := input.criteria.X
-	seatType := input.criteria.SeatType
-	seats := make([]model.Seat, 0)
-
-	posList := getPositionList(input.criteria.Y, input.amount, input.emptyPos)
-
-	for i, y := range posList {
-		nameInput := model.NameInput{
-			Column:   input.columnNumber,
-			Index:    i,
-			SeatType: seatType,
-		}
-		name := input.nameGenerator.Long(nameInput)
-		shortName := input.nameGenerator.Short(nameInput)
-
-		inputBase := model.SeatBase{
-			Pos:      model.Pos{X: x, Y: y},
-			SeatType: seatType,
-		}
-
-		seats = append(seats, newSeat(inputBase, shortName, name))
-	}
-
-	row := new(Row)
-
-	row.Seats = seats
-	return row
-}
-
 func newHorizontalRow(input RowInput) *Row {
 	y := input.criteria.Y
 	seatType := input.criteria.SeatType
@@ -105,7 +66,7 @@ func newHorizontalRow(input RowInput) *Row {
 
 		shortName := input.nameGenerator.Short(nameInput)
 		name := input.nameGenerator.Long(nameInput)
-		seats = append(seats, newSeat(inputBase, shortName, name))
+		seats = append(seats, model.NewSeat(inputBase, shortName, name))
 	}
 
 	row := new(Row)
@@ -128,6 +89,9 @@ func (b Block) String() string {
 		result = append(result, v.String())
 	}
 	return strings.Join(result, ", ")
+}
+
+func (b *Block) Set(s model.SeatBase) {
 }
 
 type BlockInput struct {
@@ -153,7 +117,7 @@ func newHorizontalBlock(input BlockInput) *Block {
 		rowInput = append(rowInput, RowInput{
 			criteria: model.SeatBase{
 				Pos:      model.Pos{X: input.startingPoint.X, Y: y},
-				SeatType: "A석",
+				SeatType: input.startingPoint.SeatType,
 			},
 			initialNumber: 1,
 			amount:        input.xSize - len(emptyPos),
@@ -171,36 +135,6 @@ func newHorizontalBlock(input BlockInput) *Block {
 	return block
 }
 
-func newVerticalBlock(input BlockInput) *Block {
-	rowInput := make([]RowInput, 0)
-
-	for columnNumber := 1; columnNumber <= input.ySize; columnNumber++ {
-		y := input.startingPoint.Y + columnNumber - 1
-		emptyPos := make([]int, 0)
-		for x := input.startingPoint.X; x < input.startingPoint.X+input.xSize; x++ {
-			if input.emptyChecker.IsEmpty(x, y) {
-				emptyPos = append(emptyPos, x)
-			}
-		}
-
-		rowInput = append(rowInput, RowInput{
-			criteria: model.SeatBase{
-				Pos:      model.Pos{X: input.startingPoint.X, Y: y},
-				SeatType: "A석",
-			},
-			initialNumber: 1,
-			amount:        input.xSize - len(emptyPos),
-			emptyPos:      emptyPos,
-			columnNumber:  columnNumber,
-		})
-	}
-	block := new(Block)
-	for _, v := range rowInput {
-		block.row = append(block.row, newVerticalRow(v))
-	}
-	return block
-}
-
 func main() {
 	hall := emptychecker.VerticalHallway(13, 14)
 	rect1 := emptychecker.Rectangle(model.Pos{X: 3, Y: 4}, model.Pos{X: 6, Y: 5})
@@ -212,7 +146,7 @@ func main() {
 	blockInput := BlockInput{
 		startingPoint: model.SeatBase{
 			Pos:      model.Pos{X: 3, Y: 4},
-			SeatType: "A석",
+			SeatType: "VIP석",
 		},
 		xSize:         21,
 		ySize:         12,
