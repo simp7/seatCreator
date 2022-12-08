@@ -11,7 +11,7 @@ func (p positionChecker) IsEmpty(x int, y int) bool {
 	return ok
 }
 
-func NewPositionChecker(positions ...model.Pos) EmptyChecker {
+func Position(positions ...model.Pos) model.EmptyChecker {
 	p := new(positionChecker)
 	hashMap := make(map[model.Pos]struct{})
 
@@ -23,7 +23,7 @@ func NewPositionChecker(positions ...model.Pos) EmptyChecker {
 	return p
 }
 
-func NewRectangleChecker(leftTop model.Pos, rightDown model.Pos) EmptyChecker {
+func Rectangle(leftTop model.Pos, rightDown model.Pos) model.EmptyChecker {
 	p := new(positionChecker)
 	hashMap := make(map[model.Pos]struct{})
 

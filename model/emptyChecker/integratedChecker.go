@@ -1,7 +1,9 @@
 package emptychecker
 
+import "github.com/simp7/seatCreator/model"
+
 type integratedChecker struct {
-	checkers []EmptyChecker
+	checkers []model.EmptyChecker
 }
 
 func (i integratedChecker) IsEmpty(x int, y int) bool {
@@ -13,7 +15,7 @@ func (i integratedChecker) IsEmpty(x int, y int) bool {
 	return false
 }
 
-func NewIntegratedChecker(checkers ...EmptyChecker) EmptyChecker {
+func Integrated(checkers ...model.EmptyChecker) model.EmptyChecker {
 	checker := new(integratedChecker)
 	checker.checkers = checkers
 	return checker

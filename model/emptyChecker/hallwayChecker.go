@@ -1,5 +1,7 @@
 package emptychecker
 
+import "github.com/simp7/seatCreator/model"
+
 type hallwayChecker struct {
 	positions []int
 }
@@ -26,14 +28,14 @@ func (h horizontalHallwayChecker) IsEmpty(x int, y int) bool {
 	return false
 }
 
-func NewVerticalHallwayChecker(positions ...int) EmptyChecker {
+func VerticalHallway(positions ...int) model.EmptyChecker {
 	checker := verticalHallwayChecker{
 		positions: positions,
 	}
 	return checker
 }
 
-func NewHorizontalHallwayChecker(positions ...int) EmptyChecker {
+func HorizontalHallway(positions ...int) model.EmptyChecker {
 	checker := horizontalHallwayChecker{
 		positions: positions,
 	}
