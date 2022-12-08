@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/simp7/seatCreator/model"
+	emptychecker "github.com/simp7/seatCreator/model/emptyChecker"
 )
 
 func twoDigit(n int) string {
@@ -128,10 +131,37 @@ func (b Block) String() string {
 }
 
 type BlockInput struct {
-	base         SeatBase
-	xSize        int
-	ySize        int
-	emptyChecker EmptyChecker
+	startingPoint SeatBase
+	xSize         int
+	ySize         int
+	emptyChecker  emptychecker.EmptyChecker
+}
+
+func newBlock(input BlockInput) *Block {
+	rowInput := make([]RowInput, 0)
+
+	for columnNumber := 1; columnNumber <= input.ySize; columnNumber++ {
+		y := input.startingPoint.y + columnNumber - 1
+		emptyPos := make([]int, 0)
+		for x := input.startingPoint.x; x < input.startingPoint.x+input.xSize; x++ {
+			if input.emptyChecker.IsEmpty(x, y) {
+				emptyPos = append(emptyPos, x)
+			}
+		}
+
+		rowInput = append(rowInput, RowInput{
+			criteria: SeatBase{
+				x:        input.startingPoint.x,
+				y:        y,
+				seatType: "A석",
+			},
+			initialNumber: 1,
+			amount:        input.xSize - len(emptyPos),
+			emptyPos:      emptyPos,
+			columnNumber:  columnNumber,
+		})
+	}
+	return newHorizontalBlock(rowInput...)
 }
 
 func newHorizontalBlock(row ...RowInput) *Block {
@@ -143,66 +173,40 @@ func newHorizontalBlock(row ...RowInput) *Block {
 }
 
 func main() {
-	rowInput := make([]RowInput, 0)
+	hall := emptychecker.NewVerticalHallwayChecker(13, 14)
+	specific := emptychecker.NewPositionChecker(model.Pos{X: 3, Y: 4}, model.Pos{X: 4, Y: 4}, model.Pos{X: 5, Y: 4}, model.Pos{X: 6, Y: 4}, model.Pos{X: 3, Y: 5}, model.Pos{X: 4, Y: 5}, model.Pos{X: 5, Y: 5}, model.Pos{X: 6, Y: 5}, model.Pos{X: 3, Y: 6},
+		model.Pos{X: 4, Y: 15}, model.Pos{X: 5, Y: 15}, model.Pos{X: 6, Y: 15}, model.Pos{X: 7, Y: 15})
+	integrated := emptychecker.NewIntegratedChecker(hall, specific)
 
-	rowInput = append(rowInput, RowInput{
-		criteria: SeatBase{
-			x:        7,
+	blockInput := BlockInput{
+		startingPoint: SeatBase{
+			x:        3,
 			y:        4,
 			seatType: "A석",
 		},
-		initialNumber: 1,
-		amount:        15,
-		emptyPos:      []int{13, 14},
-		columnNumber:  1,
-	}, RowInput{
-		criteria: SeatBase{
-			x:        7,
-			y:        5,
-			seatType: "A석",
-		},
-		initialNumber: 1,
-		amount:        15,
-		emptyPos:      []int{13, 14},
-		columnNumber:  2,
-	}, RowInput{
-		criteria: SeatBase{
-			x:        4,
-			y:        6,
-			seatType: "A석",
-		},
-		initialNumber: 1,
-		amount:        18,
-		emptyPos:      []int{13, 14},
-		columnNumber:  3,
-	})
-
-	for columnNumber := 4; columnNumber < 11; columnNumber++ {
-		rowInput = append(rowInput, RowInput{
-			criteria: SeatBase{
-				x:        3,
-				y:        columnNumber + 3,
-				seatType: "A석",
-			},
-			initialNumber: 1,
-			amount:        19,
-			emptyPos:      []int{13, 14},
-			columnNumber:  columnNumber,
-		})
+		xSize:        21,
+		ySize:        12,
+		emptyChecker: integrated,
 	}
 
-	rowInput = append(rowInput, RowInput{
-		criteria: SeatBase{
+	block := newBlock(blockInput)
+	fmt.Println(block)
+
+	rect1 := emptychecker.NewRectangleChecker(model.Pos{X: 3, Y: 4}, model.Pos{X: 6, Y: 5})
+	rect2 := emptychecker.NewRectangleChecker(model.Pos{X: 4, Y: 15}, model.Pos{X: 7, Y: 15})
+	specific = emptychecker.NewPositionChecker(model.Pos{X: 3, Y: 6})
+	integrated = emptychecker.NewIntegratedChecker(hall, rect1, rect2, specific)
+	blockInput = BlockInput{
+		startingPoint: SeatBase{
 			x:        3,
-			y:        16,
+			y:        4,
 			seatType: "A석",
 		},
-		initialNumber: 1,
-		amount:        15,
-		emptyPos:      []int{4, 5, 6, 7, 13, 14},
-		columnNumber:  12,
-	})
+		xSize:        21,
+		ySize:        12,
+		emptyChecker: integrated,
+	}
 
-	block := newHorizontalBlock(rowInput...)
+	block = newBlock(blockInput)
 	fmt.Println(block)
 }

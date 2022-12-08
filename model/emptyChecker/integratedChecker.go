@@ -1,10 +1,10 @@
 package emptychecker
 
-type IntegratedChecker struct {
+type integratedChecker struct {
 	checkers []EmptyChecker
 }
 
-func (i IntegratedChecker) IsEmpty(x int, y int) bool {
+func (i integratedChecker) IsEmpty(x int, y int) bool {
 	for _, checker := range i.checkers {
 		if checker.IsEmpty(x, y) {
 			return true
@@ -14,7 +14,7 @@ func (i IntegratedChecker) IsEmpty(x int, y int) bool {
 }
 
 func NewIntegratedChecker(checkers ...EmptyChecker) EmptyChecker {
-	checker := new(IntegratedChecker)
+	checker := new(integratedChecker)
 	checker.checkers = checkers
 	return checker
 }
