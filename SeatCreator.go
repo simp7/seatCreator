@@ -6,20 +6,14 @@ import (
 
 	"github.com/simp7/seatCreator/model"
 	"github.com/simp7/seatCreator/model/emptychecker"
+	nameFormatter "github.com/simp7/seatCreator/model/nameformatter"
 )
 
-func twoDigit(n int) string {
-	if n < 10 {
-		return fmt.Sprintf("0%d", n)
-	}
-	return fmt.Sprint(n)
-}
-
-func newSeat(base model.SeatBase, generateShortName func(_ model.SeatBase) string, generateName func(_ model.SeatBase) string) model.Seat {
+func newSeat(base model.SeatBase, shortName string, name string) model.Seat {
 	result := model.Seat{
 		SeatBase:  base,
-		ShortName: generateShortName(base),
-		Name:      generateName(base),
+		ShortName: shortName,
+		Name:      name,
 	}
 	return result
 }
@@ -44,6 +38,7 @@ type RowInput struct {
 	amount        int
 	emptyPos      []int
 	columnNumber  int
+	nameGenerator model.NameFormatter
 }
 
 func getPositionList(start int, amount int, emptyList []int) []int {
@@ -61,7 +56,33 @@ func getPositionList(start int, amount int, emptyList []int) []int {
 }
 
 func newVerticalRow(input RowInput) *Row {
-	return nil
+	x := input.criteria.X
+	seatType := input.criteria.SeatType
+	seats := make([]model.Seat, 0)
+
+	posList := getPositionList(input.criteria.Y, input.amount, input.emptyPos)
+
+	for i, y := range posList {
+		nameInput := model.NameInput{
+			Column:   input.columnNumber,
+			Index:    i,
+			SeatType: seatType,
+		}
+		name := input.nameGenerator.Long(nameInput)
+		shortName := input.nameGenerator.Short(nameInput)
+
+		inputBase := model.SeatBase{
+			Pos:      model.Pos{X: x, Y: y},
+			SeatType: seatType,
+		}
+
+		seats = append(seats, newSeat(inputBase, shortName, name))
+	}
+
+	row := new(Row)
+
+	row.Seats = seats
+	return row
 }
 
 func newHorizontalRow(input RowInput) *Row {
@@ -72,19 +93,19 @@ func newHorizontalRow(input RowInput) *Row {
 	posList := getPositionList(input.criteria.X, input.amount, input.emptyPos)
 
 	for i, x := range posList {
-		generateShortName := func(target model.SeatBase) string {
-			return fmt.Sprintf("%c%s", rune(64+input.columnNumber), twoDigit(i+1))
+		nameInput := model.NameInput{
+			Column:   input.columnNumber,
+			Index:    i,
+			SeatType: seatType,
 		}
-
-		generateName := func(target model.SeatBase) string {
-			return fmt.Sprintf("%s %d열 %s", target.SeatType, input.columnNumber, twoDigit(i+1))
-		}
-
 		inputBase := model.SeatBase{
 			Pos:      model.Pos{X: x, Y: y},
 			SeatType: seatType,
 		}
-		seats = append(seats, newSeat(inputBase, generateShortName, generateName))
+
+		shortName := input.nameGenerator.Short(nameInput)
+		name := input.nameGenerator.Long(nameInput)
+		seats = append(seats, newSeat(inputBase, shortName, name))
 	}
 
 	row := new(Row)
@@ -114,9 +135,43 @@ type BlockInput struct {
 	xSize         int
 	ySize         int
 	emptyChecker  model.EmptyChecker
+	nameGenerator model.NameFormatter
 }
 
-func newBlock(input BlockInput) *Block {
+func newHorizontalBlock(input BlockInput) *Block {
+	rowInput := make([]RowInput, 0)
+
+	for columnNumber := 1; columnNumber <= input.ySize; columnNumber++ {
+		y := input.startingPoint.Y + columnNumber - 1
+		emptyPos := make([]int, 0)
+		for x := input.startingPoint.X; x < input.startingPoint.X+input.xSize; x++ {
+			if input.emptyChecker.IsEmpty(x, y) {
+				emptyPos = append(emptyPos, x)
+			}
+		}
+
+		rowInput = append(rowInput, RowInput{
+			criteria: model.SeatBase{
+				Pos:      model.Pos{X: input.startingPoint.X, Y: y},
+				SeatType: "A석",
+			},
+			initialNumber: 1,
+			amount:        input.xSize - len(emptyPos),
+			emptyPos:      emptyPos,
+			columnNumber:  columnNumber,
+			nameGenerator: input.nameGenerator,
+		})
+	}
+
+	block := new(Block)
+	for _, v := range rowInput {
+		block.row = append(block.row, newHorizontalRow(v))
+	}
+
+	return block
+}
+
+func newVerticalBlock(input BlockInput) *Block {
 	rowInput := make([]RowInput, 0)
 
 	for columnNumber := 1; columnNumber <= input.ySize; columnNumber++ {
@@ -139,13 +194,9 @@ func newBlock(input BlockInput) *Block {
 			columnNumber:  columnNumber,
 		})
 	}
-	return newHorizontalBlock(rowInput...)
-}
-
-func newHorizontalBlock(row ...RowInput) *Block {
 	block := new(Block)
-	for _, v := range row {
-		block.row = append(block.row, newHorizontalRow(v))
+	for _, v := range rowInput {
+		block.row = append(block.row, newVerticalRow(v))
 	}
 	return block
 }
@@ -156,17 +207,19 @@ func main() {
 	rect2 := emptychecker.Rectangle(model.Pos{X: 4, Y: 15}, model.Pos{X: 7, Y: 15})
 	specific := emptychecker.Position(model.Pos{X: 3, Y: 6})
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
+	nameGenerator := nameFormatter.Standard()
 
 	blockInput := BlockInput{
 		startingPoint: model.SeatBase{
 			Pos:      model.Pos{X: 3, Y: 4},
 			SeatType: "A석",
 		},
-		xSize:        21,
-		ySize:        12,
-		emptyChecker: integrated,
+		xSize:         21,
+		ySize:         12,
+		emptyChecker:  integrated,
+		nameGenerator: nameGenerator,
 	}
 
-	block := newBlock(blockInput)
+	block := newHorizontalBlock(blockInput)
 	fmt.Println(block)
 }
