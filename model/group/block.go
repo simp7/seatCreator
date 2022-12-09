@@ -13,7 +13,7 @@ type Block interface {
 }
 
 type horizontalBlock struct {
-	row        []model.Row
+	row        []model.Group
 	startPoint pos.Absolute
 }
 

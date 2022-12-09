@@ -43,7 +43,7 @@ type Input struct {
 	EmptyPos      []int
 }
 
-func Horizontal(input Input) model.Row {
+func Horizontal(input Input) model.Group {
 	y := input.Criteria.Y
 	seatType := input.Criteria.SeatType
 	seats := make([]model.Seat, 0)

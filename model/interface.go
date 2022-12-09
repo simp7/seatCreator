@@ -11,10 +11,6 @@ type NameFormatter interface {
 	Short(seat Seat) string
 }
 
-type Row interface {
-	fmt.Stringer
-}
-
 type Group interface {
 	fmt.Stringer
 }
