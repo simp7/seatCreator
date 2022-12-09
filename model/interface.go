@@ -1,5 +1,7 @@
 package model
 
+import "fmt"
+
 type EmptyChecker interface {
 	IsEmpty(x int, y int) bool
 }
@@ -10,5 +12,9 @@ type NameFormatter interface {
 }
 
 type Row interface {
-	String() string
+	fmt.Stringer
+}
+
+type Group interface {
+	fmt.Stringer
 }
