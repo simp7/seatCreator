@@ -7,6 +7,7 @@ import (
 	"github.com/simp7/seatCreator/model"
 	"github.com/simp7/seatCreator/model/emptychecker"
 	nameFormatter "github.com/simp7/seatCreator/model/nameformatter"
+	"github.com/simp7/seatCreator/model/pos"
 )
 
 type Row struct {
@@ -56,12 +57,11 @@ func newHorizontalRow(input RowInput) *Row {
 
 	for i, x := range posList {
 		nameInput := model.NameInput{
-			Row:      input.rowNumber,
-			Index:    i,
+			Relative: pos.Relative{Row: input.rowNumber, Index: i},
 			SeatType: seatType,
 		}
 		inputBase := model.SeatBase{
-			Pos:      model.Pos{X: x, Y: y},
+			Absolute: pos.Absolute{X: x, Y: y},
 			SeatType: seatType,
 		}
 
@@ -82,7 +82,7 @@ type Block interface {
 
 type HorizontalBlock struct {
 	row        []*Row
-	startPoint model.Pos
+	startPoint pos.Absolute
 }
 
 func (b HorizontalBlock) String() string {
@@ -123,7 +123,7 @@ func newHorizontalBlock(input BlockInput) Block {
 
 		rowInput = append(rowInput, RowInput{
 			criteria: model.SeatBase{
-				Pos:      model.Pos{X: input.startingPoint.X, Y: y},
+				Absolute: pos.Absolute{X: input.startingPoint.X, Y: y},
 				SeatType: input.startingPoint.SeatType,
 			},
 			initialNumber: input.startIndex,
@@ -139,7 +139,7 @@ func newHorizontalBlock(input BlockInput) Block {
 	for _, v := range rowInput {
 		block.row = append(block.row, newHorizontalRow(v))
 	}
-	block.startPoint = input.startingPoint.Pos
+	block.startPoint = input.startingPoint.Absolute
 
 	return block
 }
@@ -164,15 +164,15 @@ func NewIntegratedBlock(blocks ...Block) Block {
 
 func ArtriumSmall() Block {
 	hall := emptychecker.VerticalHallway(13, 14)
-	rect1 := emptychecker.Rectangle(model.Pos{X: 3, Y: 4}, model.Pos{X: 6, Y: 5})
-	rect2 := emptychecker.Rectangle(model.Pos{X: 4, Y: 15}, model.Pos{X: 7, Y: 15})
-	specific := emptychecker.Position(model.Pos{X: 3, Y: 6})
+	rect1 := emptychecker.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
+	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
+	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
 	nameGenerator := nameFormatter.Standard()
 
 	blockInput := BlockInput{
 		startingPoint: model.SeatBase{
-			Pos:      model.Pos{X: 3, Y: 4},
+			Absolute: pos.Absolute{X: 3, Y: 4},
 			SeatType: "A석",
 		},
 		xSize:         21,
@@ -188,15 +188,15 @@ func ArtriumSmall() Block {
 
 func OperaHouse() Block {
 	hall := emptychecker.HorizontalHallway(22)
-	rect1 := emptychecker.Rectangle(model.Pos{X: 3, Y: 4}, model.Pos{X: 6, Y: 5})
-	rect2 := emptychecker.Rectangle(model.Pos{X: 4, Y: 15}, model.Pos{X: 7, Y: 15})
-	specific := emptychecker.Position(model.Pos{X: 3, Y: 6})
+	rect1 := emptychecker.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
+	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
+	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
 	nameGenerator := nameFormatter.Standard()
 
 	blockInput := BlockInput{
 		startingPoint: model.SeatBase{
-			Pos:      model.Pos{X: 3, Y: 4},
+			Absolute: pos.Absolute{X: 3, Y: 4},
 			SeatType: "A석",
 		},
 		xSize:         21,
@@ -217,12 +217,12 @@ func ConcertHall() Block {
 	nameGenerator := nameFormatter.Standard()
 
 	vipHall := emptychecker.VerticalHallway(3, 5, 7, 9, 11, 13, 36, 38, 40, 42, 44, 46)
-	empty := emptychecker.Rectangle(model.Pos{X: 14, Y: 26}, model.Pos{X: 35, Y: 26})
+	empty := emptychecker.Rectangle(pos.Absolute{X: 14, Y: 26}, pos.Absolute{X: 35, Y: 26})
 	integrated2 := emptychecker.Integrated(vipHall, empty)
 
 	blockInput := BlockInput{
 		startingPoint: model.SeatBase{
-			Pos:      model.Pos{X: 2, Y: 8},
+			Absolute: pos.Absolute{X: 2, Y: 8},
 			SeatType: "A석",
 		},
 		xSize:         46,
@@ -234,7 +234,7 @@ func ConcertHall() Block {
 	}
 	blockInput2 := BlockInput{
 		startingPoint: model.SeatBase{
-			Pos:      model.Pos{X: 15, Y: 26},
+			Absolute: pos.Absolute{X: 15, Y: 26},
 			SeatType: "A석",
 		},
 		xSize:         20,
@@ -247,7 +247,7 @@ func ConcertHall() Block {
 
 	blockInput3 := BlockInput{
 		startingPoint: model.SeatBase{
-			Pos:      model.Pos{X: 2, Y: 26},
+			Absolute: pos.Absolute{X: 2, Y: 26},
 			SeatType: "VIP석",
 		},
 		xSize:         46,

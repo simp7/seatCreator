@@ -1,20 +1,19 @@
 package model
 
-import "fmt"
+import (
+	"fmt"
 
-type Pos struct {
-	X int
-	Y int
-}
+	"github.com/simp7/seatCreator/model/pos"
+)
 
 type SeatBase struct {
-	Pos
-	SeatType string `json:"seat_type"`
+	pos.Absolute
+	SeatType string
 }
 
 type Seat struct {
 	SeatBase
-	ShortName string `json:"short_type"`
+	ShortName string
 	Name      string
 }
 
