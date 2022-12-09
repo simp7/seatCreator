@@ -6,82 +6,17 @@ import (
 
 	"github.com/simp7/seatCreator/model"
 	"github.com/simp7/seatCreator/model/emptychecker"
-	nameFormatter "github.com/simp7/seatCreator/model/nameformatter"
+	"github.com/simp7/seatCreator/model/nameformatter"
 	"github.com/simp7/seatCreator/model/pos"
+	"github.com/simp7/seatCreator/model/row"
 )
-
-type Row struct {
-	Seats []model.Seat
-}
-
-func (r Row) String() string {
-
-	var result = make([]string, 0)
-
-	for _, v := range r.Seats {
-		result = append(result, v.String())
-	}
-	return strings.Join(result, ", ")
-}
-
-type RowInput struct {
-	criteria      model.SeatBase
-	initialNumber int
-	amount        int
-	emptyPos      []int
-	rowNumber     int
-	nameFormatter model.NameFormatter
-}
-
-func relativePositionList(start int, amount int, emptyList []int) []int {
-	result := make([]int, 0)
-	current := start
-	emptyPosIndex := 0
-	for i := 1; i <= amount; i++ {
-		for emptyPosIndex < len(emptyList) && current == emptyList[emptyPosIndex] {
-			emptyPosIndex++
-			current++
-		}
-		result = append(result, current)
-		current++
-	}
-	return result
-}
-
-func newHorizontalRow(input RowInput) *Row {
-	y := input.criteria.Y
-	seatType := input.criteria.SeatType
-	seats := make([]model.Seat, 0)
-
-	posList := relativePositionList(input.criteria.X, input.amount, input.emptyPos)
-
-	for i, x := range posList {
-		nameInput := model.NameInput{
-			Relative: pos.Relative{Row: input.rowNumber, Index: i},
-			SeatType: seatType,
-		}
-		inputBase := model.SeatBase{
-			Absolute: pos.Absolute{X: x, Y: y},
-			SeatType: seatType,
-		}
-
-		shortName := input.nameFormatter.Short(nameInput)
-		name := input.nameFormatter.Long(nameInput)
-		seats = append(seats, model.NewSeat(inputBase, shortName, name))
-	}
-
-	row := new(Row)
-
-	row.Seats = seats
-	return row
-}
 
 type Block interface {
 	fmt.Stringer
 }
 
 type HorizontalBlock struct {
-	row        []*Row
+	row        []model.Row
 	startPoint pos.Absolute
 }
 
@@ -104,9 +39,9 @@ type BlockInput struct {
 }
 
 func newHorizontalBlock(input BlockInput) Block {
-	rowInput := make([]RowInput, 0)
-
+	rowInput := make([]row.Input, 0)
 	rowNumber := input.startRow
+
 	for dy := 1; dy <= input.ySize; dy++ {
 		y := input.startingPoint.Y + dy - 1
 		emptyPos := make([]int, 0)
@@ -121,23 +56,21 @@ func newHorizontalBlock(input BlockInput) Block {
 			continue
 		}
 
-		rowInput = append(rowInput, RowInput{
-			criteria: model.SeatBase{
-				Absolute: pos.Absolute{X: input.startingPoint.X, Y: y},
-				SeatType: input.startingPoint.SeatType,
-			},
-			initialNumber: input.startIndex,
-			amount:        input.xSize - len(emptyPos),
-			emptyPos:      emptyPos,
-			rowNumber:     rowNumber,
-			nameFormatter: input.nameGenerator,
+		base := model.NewSeatBase(input.startingPoint.X, y, input.startingPoint.SeatType)
+		seat := model.NewSeat(base, pos.Relative{Row: rowNumber, Index: input.startIndex})
+
+		rowInput = append(rowInput, row.Input{
+			Criteria:      seat,
+			NameFormatter: input.nameGenerator,
+			Amount:        input.xSize - len(emptyPos),
+			EmptyPos:      emptyPos,
 		})
 		rowNumber++
 	}
 
 	block := new(HorizontalBlock)
 	for _, v := range rowInput {
-		block.row = append(block.row, newHorizontalRow(v))
+		block.row = append(block.row, row.Horizontal(v))
 	}
 	block.startPoint = input.startingPoint.Absolute
 
@@ -168,7 +101,7 @@ func ArtriumSmall() Block {
 	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
 	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
-	nameGenerator := nameFormatter.Standard()
+	nameGenerator := nameformatter.Standard()
 
 	blockInput := BlockInput{
 		startingPoint: model.SeatBase{
@@ -192,7 +125,7 @@ func OperaHouse() Block {
 	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
 	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
-	nameGenerator := nameFormatter.Standard()
+	nameGenerator := nameformatter.Standard()
 
 	blockInput := BlockInput{
 		startingPoint: model.SeatBase{
@@ -214,7 +147,7 @@ func ConcertHall() Block {
 	vHall := emptychecker.VerticalHallway(14, 35)
 	hHall := emptychecker.HorizontalHallway(16, 17, 18, 19)
 	integrated := emptychecker.Integrated(vHall, hHall)
-	nameGenerator := nameFormatter.Standard()
+	nameGenerator := nameformatter.Standard()
 
 	vipHall := emptychecker.VerticalHallway(3, 5, 7, 9, 11, 13, 36, 38, 40, 42, 44, 46)
 	empty := emptychecker.Rectangle(pos.Absolute{X: 14, Y: 26}, pos.Absolute{X: 35, Y: 26})

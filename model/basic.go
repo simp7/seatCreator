@@ -11,21 +11,23 @@ type SeatBase struct {
 	SeatType string
 }
 
+func NewSeatBase(x int, y int, seatType string) SeatBase {
+	return SeatBase{Absolute: pos.Absolute{X: x, Y: y}, SeatType: seatType}
+}
+
 type Seat struct {
 	SeatBase
-	ShortName string
-	Name      string
+	pos.Relative
 }
 
-func (s Seat) String() string {
-	return fmt.Sprintf("{\n\tx: %d,\n\ty: %d,\n\tseat_type: \"%s\",\n\tshort_name: \"%s\",\n\tname: \"%s\"\n}", s.X, s.Y, s.SeatType, s.ShortName, s.Name)
+func (s Seat) String(name NameFormatter) string {
+	return fmt.Sprintf("{\n\tx: %d,\n\ty: %d,\n\tseat_type: \"%s\",\n\tshort_name: \"%s\",\n\tname: \"%s\"\n}", s.X, s.Y, s.SeatType, name.Short(s), name.Long(s))
 }
 
-func NewSeat(base SeatBase, shortName string, name string) Seat {
+func NewSeat(base SeatBase, relativePos pos.Relative) Seat {
 	result := Seat{
-		SeatBase:  base,
-		ShortName: shortName,
-		Name:      name,
+		SeatBase: base,
+		Relative: relativePos,
 	}
 	return result
 }
