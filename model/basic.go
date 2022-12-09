@@ -24,10 +24,13 @@ func (s Seat) String(name NameFormatter) string {
 	return fmt.Sprintf("{\n\tx: %d,\n\ty: %d,\n\tseat_type: \"%s\",\n\tshort_name: \"%s\",\n\tname: \"%s\"\n}", s.X, s.Y, s.SeatType, name.Short(s), name.Long(s))
 }
 
-func NewSeat(base SeatBase, relativePos pos.Relative) Seat {
+func NewSeat(base SeatBase, index int, row int) Seat {
 	result := Seat{
 		SeatBase: base,
-		Relative: relativePos,
+		Relative: pos.Relative{
+			Index: index,
+			Row:   row,
+		},
 	}
 	return result
 }

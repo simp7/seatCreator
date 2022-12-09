@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/simp7/seatCreator/model"
-	"github.com/simp7/seatCreator/model/pos"
 )
 
 func relativePositionList(start int, amount int, emptyList []int) []int {
@@ -52,11 +51,8 @@ func Horizontal(input Input) model.Row {
 	posList := relativePositionList(input.Criteria.X, input.Amount, input.EmptyPos)
 
 	for i, x := range posList {
-		inputBase := model.SeatBase{
-			Absolute: pos.Absolute{X: x, Y: y},
-			SeatType: seatType,
-		}
-		seats = append(seats, model.NewSeat(inputBase, pos.Relative{Row: input.Criteria.Row, Index: i + input.Criteria.Index - 1}))
+		inputBase := model.NewSeatBase(x, y, seatType)
+		seats = append(seats, model.NewSeat(inputBase, i+input.Criteria.Index-1, input.Criteria.Row))
 	}
 
 	row := new(linear)

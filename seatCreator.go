@@ -12,7 +12,7 @@ import (
 )
 
 type Block interface {
-	fmt.Stringer
+	String() string
 }
 
 type HorizontalBlock struct {
@@ -29,23 +29,21 @@ func (b HorizontalBlock) String() string {
 }
 
 type BlockInput struct {
-	startingPoint model.SeatBase
+	criteria      model.Seat
 	xSize         int
 	ySize         int
-	startIndex    int
-	startRow      int
 	emptyChecker  model.EmptyChecker
 	nameGenerator model.NameFormatter
 }
 
 func newHorizontalBlock(input BlockInput) Block {
 	rowInput := make([]row.Input, 0)
-	rowNumber := input.startRow
+	rowNumber := input.criteria.Row
 
 	for dy := 1; dy <= input.ySize; dy++ {
-		y := input.startingPoint.Y + dy - 1
+		y := input.criteria.Y + dy - 1
 		emptyPos := make([]int, 0)
-		for x := input.startingPoint.X; x < input.startingPoint.X+input.xSize; x++ {
+		for x := input.criteria.X; x < input.criteria.X+input.xSize; x++ {
 			if input.emptyChecker.IsEmpty(x, y) {
 				emptyPos = append(emptyPos, x)
 			}
@@ -56,11 +54,9 @@ func newHorizontalBlock(input BlockInput) Block {
 			continue
 		}
 
-		base := model.NewSeatBase(input.startingPoint.X, y, input.startingPoint.SeatType)
-		seat := model.NewSeat(base, pos.Relative{Row: rowNumber, Index: input.startIndex})
-
+		base := model.NewSeatBase(input.criteria.X, y, input.criteria.SeatType)
 		rowInput = append(rowInput, row.Input{
-			Criteria:      seat,
+			Criteria:      model.NewSeat(base, input.criteria.Index, rowNumber),
 			NameFormatter: input.nameGenerator,
 			Amount:        input.xSize - len(emptyPos),
 			EmptyPos:      emptyPos,
@@ -72,7 +68,7 @@ func newHorizontalBlock(input BlockInput) Block {
 	for _, v := range rowInput {
 		block.row = append(block.row, row.Horizontal(v))
 	}
-	block.startPoint = input.startingPoint.Absolute
+	block.startPoint = input.criteria.Absolute
 
 	return block
 }
@@ -103,15 +99,11 @@ func ArtriumSmall() Block {
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
 	nameGenerator := nameformatter.Standard()
 
+	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := BlockInput{
-		startingPoint: model.SeatBase{
-			Absolute: pos.Absolute{X: 3, Y: 4},
-			SeatType: "A석",
-		},
+		criteria:      model.NewSeat(base, 1, 1),
 		xSize:         21,
 		ySize:         12,
-		startIndex:    1,
-		startRow:      1,
 		emptyChecker:  integrated,
 		nameGenerator: nameGenerator,
 	}
@@ -120,27 +112,7 @@ func ArtriumSmall() Block {
 }
 
 func OperaHouse() Block {
-	hall := emptychecker.HorizontalHallway(22)
-	rect1 := emptychecker.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
-	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
-	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
-	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
-	nameGenerator := nameformatter.Standard()
-
-	blockInput := BlockInput{
-		startingPoint: model.SeatBase{
-			Absolute: pos.Absolute{X: 3, Y: 4},
-			SeatType: "A석",
-		},
-		xSize:         21,
-		ySize:         12,
-		startIndex:    1,
-		startRow:      1,
-		emptyChecker:  integrated,
-		nameGenerator: nameGenerator,
-	}
-
-	return newHorizontalBlock(blockInput)
+	return ArtriumSmall()
 }
 
 func ConcertHall() Block {
@@ -153,40 +125,29 @@ func ConcertHall() Block {
 	empty := emptychecker.Rectangle(pos.Absolute{X: 14, Y: 26}, pos.Absolute{X: 35, Y: 26})
 	integrated2 := emptychecker.Integrated(vipHall, empty)
 
+	base := model.NewSeatBase(2, 8, "A석")
 	blockInput := BlockInput{
-		startingPoint: model.SeatBase{
-			Absolute: pos.Absolute{X: 2, Y: 8},
-			SeatType: "A석",
-		},
+		criteria:      model.NewSeat(base, 1, 1),
 		xSize:         46,
 		ySize:         18,
-		startIndex:    1,
-		startRow:      1,
-		emptyChecker:  integrated,
-		nameGenerator: nameGenerator,
-	}
-	blockInput2 := BlockInput{
-		startingPoint: model.SeatBase{
-			Absolute: pos.Absolute{X: 15, Y: 26},
-			SeatType: "A석",
-		},
-		xSize:         20,
-		ySize:         2,
-		startIndex:    13,
-		startRow:      15,
 		emptyChecker:  integrated,
 		nameGenerator: nameGenerator,
 	}
 
+	base = model.NewSeatBase(15, 26, "A석")
+	blockInput2 := BlockInput{
+		criteria:      model.NewSeat(base, 13, 15),
+		xSize:         20,
+		ySize:         2,
+		emptyChecker:  integrated,
+		nameGenerator: nameGenerator,
+	}
+
+	base = model.NewSeatBase(2, 26, "VIP석")
 	blockInput3 := BlockInput{
-		startingPoint: model.SeatBase{
-			Absolute: pos.Absolute{X: 2, Y: 26},
-			SeatType: "VIP석",
-		},
+		criteria:      model.NewSeat(base, 1, 15),
 		xSize:         46,
 		ySize:         1,
-		startIndex:    1,
-		startRow:      15,
 		emptyChecker:  integrated2,
 		nameGenerator: nameGenerator,
 	}
