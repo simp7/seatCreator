@@ -17,7 +17,7 @@ func ArtriumSmall() model.Group {
 	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
 	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
-	nameGenerator := nameformatter.Standard()
+	nameFormatter := nameformatter.Standard()
 
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
@@ -25,7 +25,7 @@ func ArtriumSmall() model.Group {
 		XSize:         21,
 		YSize:         12,
 		EmptyChecker:  integrated,
-		NameGenerator: nameGenerator,
+		NameFormatter: nameFormatter,
 	}
 
 	return group.HorizontalBlock(blockInput)

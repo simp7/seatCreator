@@ -16,7 +16,7 @@ func ArtriumSmall() model.Group {
 	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
 	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
 	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
-	nameGenerator := nameformatter.Standard()
+	nameFormatter := nameformatter.Standard()
 
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
@@ -24,7 +24,7 @@ func ArtriumSmall() model.Group {
 		XSize:         21,
 		YSize:         12,
 		EmptyChecker:  integrated,
-		NameGenerator: nameGenerator,
+		NameFormatter: nameFormatter,
 	}
 
 	return group.HorizontalBlock(blockInput)
@@ -38,7 +38,7 @@ func ConcertHall() model.Group {
 	vHall := emptychecker.VerticalHallway(14, 35)
 	hHall := emptychecker.HorizontalHallway(16, 17, 18, 19)
 	integrated := emptychecker.Integrated(vHall, hHall)
-	nameGenerator := nameformatter.Standard()
+	nameFormatter := nameformatter.Standard()
 
 	vipHall := emptychecker.VerticalHallway(3, 5, 7, 9, 11, 13, 36, 38, 40, 42, 44, 46)
 	empty := emptychecker.Rectangle(pos.Absolute{X: 14, Y: 26}, pos.Absolute{X: 35, Y: 26})
@@ -50,7 +50,7 @@ func ConcertHall() model.Group {
 		XSize:         46,
 		YSize:         18,
 		EmptyChecker:  integrated,
-		NameGenerator: nameGenerator,
+		NameFormatter: nameFormatter,
 	}
 
 	base = model.NewSeatBase(15, 26, "A석")
@@ -59,7 +59,7 @@ func ConcertHall() model.Group {
 		XSize:         20,
 		YSize:         2,
 		EmptyChecker:  integrated,
-		NameGenerator: nameGenerator,
+		NameFormatter: nameFormatter,
 	}
 
 	base = model.NewSeatBase(2, 26, "VIP석")
@@ -68,7 +68,7 @@ func ConcertHall() model.Group {
 		XSize:         46,
 		YSize:         1,
 		EmptyChecker:  integrated2,
-		NameGenerator: nameGenerator,
+		NameFormatter: nameFormatter,
 	}
 
 	block1 := group.HorizontalBlock(blockInput)
@@ -77,7 +77,21 @@ func ConcertHall() model.Group {
 	return group.Mixed(block1, block2, block3)
 }
 
+func ConcertHall2F() model.Group {
+	base := model.NewSeatBase(0, 7, "A석")
+	seat := model.NewSeat(base, 1, 1)
+	block := group.VerticalBlock(group.BlockInput{
+		Criteria:      seat,
+		XSize:         3,
+		YSize:         21,
+		NameFormatter: nameformatter.Standard(),
+		EmptyChecker:  emptychecker.None(),
+	})
+	return block
+}
+
 func main() {
-	fmt.Println(ArtriumSmall())
-	fmt.Println(ConcertHall())
+	// fmt.Println(ArtriumSmall())
+	// fmt.Println(ConcertHall())
+	fmt.Println(ConcertHall2F())
 }

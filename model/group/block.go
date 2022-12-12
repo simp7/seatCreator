@@ -12,12 +12,12 @@ type Block interface {
 	String() string
 }
 
-type horizontalBlock struct {
+type block struct {
 	row        []model.Group
 	startPoint pos.Absolute
 }
 
-func (b horizontalBlock) String() string {
+func (b block) String() string {
 	result := make([]string, 0)
 	for _, v := range b.row {
 		result = append(result, v.String())
@@ -30,7 +30,7 @@ type BlockInput struct {
 	XSize         int
 	YSize         int
 	EmptyChecker  model.EmptyChecker
-	NameGenerator model.NameFormatter
+	NameFormatter model.NameFormatter
 }
 
 func HorizontalBlock(input BlockInput) Block {
@@ -59,7 +59,7 @@ func HorizontalBlock(input BlockInput) Block {
 		base := model.NewSeatBase(input.Criteria.X, y, input.Criteria.SeatType)
 		rowInput = append(rowInput, row.Input{
 			Criteria:      model.NewSeat(base, input.Criteria.Index, rowNumber),
-			NameFormatter: input.NameGenerator,
+			NameFormatter: input.NameFormatter,
 			Amount:        input.XSize - len(emptyPos),
 			EmptyPos:      emptyPos,
 		})
@@ -70,9 +70,55 @@ func HorizontalBlock(input BlockInput) Block {
 		appendRowInput(dy)
 	}
 
-	block := new(horizontalBlock)
+	block := new(block)
 	for _, v := range rowInput {
 		block.row = append(block.row, row.Horizontal(v))
+	}
+	block.startPoint = input.Criteria.Absolute
+
+	return block
+}
+
+func VerticalBlock(input BlockInput) Block {
+	rowInput := make([]row.Input, 0)
+	rowNumber := input.Criteria.Row
+
+	filterEmptyPos := func(x int) []int {
+		result := make([]int, 0)
+
+		for y := input.Criteria.Y; y < input.Criteria.Y+input.YSize; y++ {
+			if input.EmptyChecker.IsEmpty(x, y) {
+				result = append(result, y)
+			}
+		}
+		return result
+	}
+
+	appendRowInput := func(dx int) {
+		x := input.Criteria.X + dx - 1
+		emptyPos := filterEmptyPos(x)
+		amount := input.XSize - len(emptyPos)
+		if amount == 0 {
+			return
+		}
+
+		base := model.NewSeatBase(x, input.Criteria.Y, input.Criteria.SeatType)
+		rowInput = append(rowInput, row.Input{
+			Criteria:      model.NewSeat(base, input.Criteria.Index, rowNumber),
+			NameFormatter: input.NameFormatter,
+			Amount:        input.YSize - len(emptyPos),
+			EmptyPos:      emptyPos,
+		})
+		rowNumber++
+	}
+
+	for dx := 1; dx <= input.XSize; dx++ {
+		appendRowInput(dx)
+	}
+
+	block := new(block)
+	for _, v := range rowInput {
+		block.row = append(block.row, row.Vertical(v))
 	}
 	block.startPoint = input.Criteria.Absolute
 

@@ -61,3 +61,22 @@ func Horizontal(input Input) model.Group {
 	row.nameFormatter = input.NameFormatter
 	return row
 }
+
+func Vertical(input Input) model.Group {
+	x := input.Criteria.X
+	seatType := input.Criteria.SeatType
+	seats := make([]model.Seat, 0)
+
+	posList := relativePositionList(input.Criteria.Y, input.Amount, input.EmptyPos)
+
+	for i, y := range posList {
+		inputBase := model.NewSeatBase(x, y, seatType)
+		seats = append(seats, model.NewSeat(inputBase, i+input.Criteria.Index-1, input.Criteria.Row))
+	}
+
+	row := new(linear)
+
+	row.seats = seats
+	row.nameFormatter = input.NameFormatter
+	return row
+}
