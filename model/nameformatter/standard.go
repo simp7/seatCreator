@@ -13,16 +13,16 @@ func twoDigit(n int) string {
 	return fmt.Sprint(n)
 }
 
-type standardGenerator struct{}
+type standardFormatter struct{}
 
-func (s standardGenerator) Long(input model.Seat) string {
+func (s standardFormatter) Long(input model.Seat) string {
 	return fmt.Sprintf("%s %d열 %s", input.SeatType, input.Row, twoDigit(input.Index+1))
 }
 
-func (s standardGenerator) Short(input model.Seat) string {
+func (s standardFormatter) Short(input model.Seat) string {
 	return fmt.Sprintf("%c%s", rune(64+input.Row), twoDigit(input.Index+1))
 }
 
 func Standard() model.NameFormatter {
-	return standardGenerator{}
+	return standardFormatter{}
 }
