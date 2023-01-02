@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/simp7/seatCreator/model"
-	"github.com/simp7/seatCreator/model/emptychecker"
+	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
 	"github.com/simp7/seatCreator/model/pos"
@@ -12,11 +12,11 @@ import (
 )
 
 func ArtriumSmall() model.Group {
-	hall := emptychecker.VerticalHallway(13, 14)
-	rect1 := emptychecker.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
-	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
-	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
-	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
+	hall := eraser.VerticalHallway(13, 14)
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
+	specific := eraser.Position(pos.Absolute{X: 3, Y: 6})
+	integrated := eraser.Integrated(hall, rect1, rect2, specific)
 	nameFormatter := nameformatter.Standard()
 
 	base := model.NewSeatBase(3, 4, "A석")

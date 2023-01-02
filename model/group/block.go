@@ -29,7 +29,7 @@ type BlockInput struct {
 	Criteria      model.Seat
 	XSize         int
 	YSize         int
-	EmptyChecker  model.EmptyChecker
+	EmptyChecker  model.Eraser
 	NameFormatter model.NameFormatter
 }
 

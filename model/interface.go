@@ -2,7 +2,7 @@ package model
 
 import "fmt"
 
-type EmptyChecker interface {
+type Eraser interface {
 	IsEmpty(x int, y int) bool
 }
 

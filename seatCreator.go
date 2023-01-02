@@ -4,18 +4,18 @@ import (
 	"fmt"
 
 	"github.com/simp7/seatCreator/model"
-	"github.com/simp7/seatCreator/model/emptychecker"
+	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
 	"github.com/simp7/seatCreator/model/pos"
 )
 
 func ArtriumSmall() model.Group {
-	hall := emptychecker.VerticalHallway(13, 14)
-	rect1 := emptychecker.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
-	rect2 := emptychecker.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
-	specific := emptychecker.Position(pos.Absolute{X: 3, Y: 6})
-	integrated := emptychecker.Integrated(hall, rect1, rect2, specific)
+	hall := eraser.VerticalHallway(13, 14)
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
+	specific := eraser.Position(pos.Absolute{X: 3, Y: 6})
+	integrated := eraser.Integrated(hall, rect1, rect2, specific)
 	nameFormatter := nameformatter.Standard()
 
 	base := model.NewSeatBase(3, 4, "A석")
@@ -35,14 +35,14 @@ func OperaHouse() model.Group {
 }
 
 func ConcertHall1F() model.Group {
-	vHall := emptychecker.VerticalHallway(14, 35)
-	hHall := emptychecker.HorizontalHallway(16, 17, 18, 19)
-	integrated := emptychecker.Integrated(vHall, hHall)
+	vHall := eraser.VerticalHallway(14, 35)
+	hHall := eraser.HorizontalHallway(16, 17, 18, 19)
+	integrated := eraser.Integrated(vHall, hHall)
 	nameFormatter := nameformatter.Floor(nameformatter.Standard(), 1)
 
-	vipHall := emptychecker.VerticalHallway(3, 5, 7, 9, 11, 13, 36, 38, 40, 42, 44, 46)
-	empty := emptychecker.Rectangle(pos.Absolute{X: 14, Y: 26}, pos.Absolute{X: 35, Y: 26})
-	integrated2 := emptychecker.Integrated(vipHall, empty)
+	vipHall := eraser.VerticalHallway(3, 5, 7, 9, 11, 13, 36, 38, 40, 42, 44, 46)
+	empty := eraser.Rectangle(pos.Absolute{X: 14, Y: 26}, pos.Absolute{X: 35, Y: 26})
+	integrated2 := eraser.Integrated(vipHall, empty)
 
 	base := model.NewSeatBase(2, 8, "A석")
 	blockInput := group.BlockInput{
@@ -81,10 +81,10 @@ func ConcertHall2F() model.Group {
 	top := func() model.Group {
 		base := model.NewSeatBase(4, 2, "A석")
 		seat := model.NewSeat(base, 1, 1)
-		emptyL := emptychecker.Position(pos.Absolute{X: 4, Y: 3}, pos.Absolute{X: 4, Y: 4}, pos.Absolute{X: 5, Y: 4})
-		emptyR := emptychecker.Position(pos.Absolute{X: 36, Y: 3}, pos.Absolute{X: 35, Y: 4}, pos.Absolute{X: 36, Y: 4})
-		hallway := emptychecker.VerticalHallway(21)
-		empty := emptychecker.Integrated(emptyL, emptyR, hallway)
+		emptyL := eraser.Position(pos.Absolute{X: 4, Y: 3}, pos.Absolute{X: 4, Y: 4}, pos.Absolute{X: 5, Y: 4})
+		emptyR := eraser.Position(pos.Absolute{X: 36, Y: 3}, pos.Absolute{X: 35, Y: 4}, pos.Absolute{X: 36, Y: 4})
+		hallway := eraser.VerticalHallway(21)
+		empty := eraser.Integrated(emptyL, emptyR, hallway)
 		return group.HorizontalBlock(group.BlockInput{
 			Criteria:      seat,
 			XSize:         33,
@@ -97,7 +97,7 @@ func ConcertHall2F() model.Group {
 	left := func() model.Group {
 		base := model.NewSeatBase(0, 5, "A석")
 		seat := model.NewSeat(base, 1, 1)
-		empty := emptychecker.Position(pos.Absolute{X: 0, Y: 5}, pos.Absolute{X: 0, Y: 6}, pos.Absolute{X: 1, Y: 5})
+		empty := eraser.Position(pos.Absolute{X: 0, Y: 5}, pos.Absolute{X: 0, Y: 6}, pos.Absolute{X: 1, Y: 5})
 		return group.VerticalBlock(group.BlockInput{
 			Criteria:      seat,
 			XSize:         3,
@@ -110,7 +110,7 @@ func ConcertHall2F() model.Group {
 	right := func() model.Group {
 		base := model.NewSeatBase(40, 5, "A석")
 		seat := model.NewSeat(base, 1, 1)
-		empty := emptychecker.Position(pos.Absolute{X: 41, Y: 5}, pos.Absolute{X: 42, Y: 5}, pos.Absolute{X: 42, Y: 6})
+		empty := eraser.Position(pos.Absolute{X: 41, Y: 5}, pos.Absolute{X: 42, Y: 5}, pos.Absolute{X: 42, Y: 6})
 		return group.VerticalBlock(group.BlockInput{
 			Criteria:      seat,
 			XSize:         3,
@@ -123,7 +123,7 @@ func ConcertHall2F() model.Group {
 	bottom := func() model.Group {
 		base := model.NewSeatBase(5, 24, "VIP석")
 		seat := model.NewSeat(base, 1, 1)
-		empty := emptychecker.VerticalHallway(14, 29)
+		empty := eraser.VerticalHallway(14, 29)
 		return group.HorizontalBlock(group.BlockInput{
 			Criteria:      seat,
 			XSize:         34,
