@@ -140,17 +140,8 @@ func ConcertHall2F() model.Group {
 }
 
 func handler(c *gin.Context) {
-	target := ConcertHall1F()
-	fmt.Println(target)
-	fmt.Fprintf(c.Writer, "<h1>Seat Map</h1><body>%s</body>", target.String())
-}
-
-func printSeat(seat model.Seat) string {
-	top := seat.Y * 30
-	left := seat.X * 30
-	return fmt.Sprintf(`<div style="position: absolute; top: %d; left: %d, width:30px; height:30px; background-color:%s; border-radius:5px; align-items: center; justify-content: center">
-	<text style="font-size:13; color: white">%s</text>
-	</div>`, top, left, seat.String(nameformatter.Standard()), "#888")
+	target := ConcertHall2F()
+	fmt.Fprintf(c.Writer, "<h1>Seats Map</h1><body>%s</body>", target.Html())
 }
 
 func main() {
@@ -158,7 +149,5 @@ func main() {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 	r.GET("/", handler)
-
 	r.Run()
-
 }

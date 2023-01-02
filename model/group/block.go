@@ -10,6 +10,7 @@ import (
 
 type Block interface {
 	String() string
+	Html() string
 }
 
 type block struct {
@@ -22,7 +23,15 @@ func (b block) String() string {
 	for _, v := range b.row {
 		result = append(result, v.String())
 	}
-	return strings.Join(result, ", ")
+	return strings.Join(result, "\n")
+}
+
+func (b block) Html() string {
+	result := make([]string, 0)
+	for _, v := range b.row {
+		result = append(result, v.Html())
+	}
+	return strings.Join(result, "\n")
 }
 
 type BlockInput struct {

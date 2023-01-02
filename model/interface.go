@@ -13,4 +13,5 @@ type NameFormatter interface {
 
 type Group interface {
 	fmt.Stringer
+	Html() string
 }

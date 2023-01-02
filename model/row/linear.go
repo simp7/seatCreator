@@ -27,13 +27,21 @@ type linear struct {
 }
 
 func (r linear) String() string {
-
-	var result = make([]string, 0)
+	result := make([]string, 0)
 
 	for _, v := range r.seats {
 		result = append(result, v.String(r.nameFormatter))
 	}
 	return strings.Join(result, ", ")
+}
+
+func (r linear) Html() string {
+	result := make([]string, 0)
+
+	for _, v := range r.seats {
+		result = append(result, v.Html(r.nameFormatter))
+	}
+	return strings.Join(result, "\n")
 }
 
 type Input struct {

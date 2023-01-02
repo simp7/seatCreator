@@ -18,6 +18,14 @@ func (g mixedGroup) String() string {
 	return strings.Join(result, ", ")
 }
 
+func (g mixedGroup) Html() string {
+	result := make([]string, 0)
+	for _, v := range g.groups {
+		result = append(result, v.Html())
+	}
+	return strings.Join(result, "\n")
+}
+
 func Mixed(groups ...model.Group) model.Group {
 	return mixedGroup{groups: groups}
 }
