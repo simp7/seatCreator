@@ -5,7 +5,6 @@ import (
 
 	"github.com/simp7/seatCreator/model"
 	"github.com/simp7/seatCreator/model/pos"
-	"github.com/simp7/seatCreator/model/row"
 )
 
 type Block interface {
@@ -43,7 +42,7 @@ type BlockInput struct {
 }
 
 func HorizontalBlock(input BlockInput) Block {
-	rowInput := make([]row.Input, 0)
+	rowInput := make([]Input, 0)
 	rowNumber := input.Criteria.Row
 
 	filterEmptyPos := func(y int) []int {
@@ -66,7 +65,7 @@ func HorizontalBlock(input BlockInput) Block {
 		}
 
 		base := model.NewSeatBase(input.Criteria.X, y, input.Criteria.SeatType)
-		rowInput = append(rowInput, row.Input{
+		rowInput = append(rowInput, Input{
 			Criteria:      model.NewSeat(base, input.Criteria.Index, rowNumber),
 			NameFormatter: input.NameFormatter,
 			Amount:        input.XSize - len(emptyPos),
@@ -81,7 +80,7 @@ func HorizontalBlock(input BlockInput) Block {
 
 	block := new(block)
 	for _, v := range rowInput {
-		block.row = append(block.row, row.Horizontal(v))
+		block.row = append(block.row, HorizontalRow(v))
 	}
 	block.startPoint = input.Criteria.Absolute
 
@@ -89,7 +88,7 @@ func HorizontalBlock(input BlockInput) Block {
 }
 
 func VerticalBlock(input BlockInput) Block {
-	rowInput := make([]row.Input, 0)
+	rowInput := make([]Input, 0)
 	rowNumber := input.Criteria.Row
 
 	filterEmptyPos := func(x int) []int {
@@ -112,7 +111,7 @@ func VerticalBlock(input BlockInput) Block {
 		}
 
 		base := model.NewSeatBase(x, input.Criteria.Y, input.Criteria.SeatType)
-		rowInput = append(rowInput, row.Input{
+		rowInput = append(rowInput, Input{
 			Criteria:      model.NewSeat(base, input.Criteria.Index, rowNumber),
 			NameFormatter: input.NameFormatter,
 			Amount:        input.YSize - len(emptyPos),
@@ -127,7 +126,7 @@ func VerticalBlock(input BlockInput) Block {
 
 	block := new(block)
 	for _, v := range rowInput {
-		block.row = append(block.row, row.Vertical(v))
+		block.row = append(block.row, VerticalRow(v))
 	}
 	block.startPoint = input.Criteria.Absolute
 

@@ -1,4 +1,4 @@
-package row
+package group
 
 import (
 	"strings"
@@ -51,7 +51,7 @@ type Input struct {
 	EmptyPos      []int
 }
 
-func Horizontal(input Input) model.Group {
+func HorizontalRow(input Input) model.Group {
 	y := input.Criteria.Y
 	seatType := input.Criteria.SeatType
 	seats := make([]model.Seat, 0)
@@ -70,7 +70,7 @@ func Horizontal(input Input) model.Group {
 	return row
 }
 
-func Vertical(input Input) model.Group {
+func VerticalRow(input Input) model.Group {
 	x := input.Criteria.X
 	seatType := input.Criteria.SeatType
 	seats := make([]model.Seat, 0)
