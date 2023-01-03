@@ -7,11 +7,6 @@ import (
 	"github.com/simp7/seatCreator/model/pos"
 )
 
-type Block interface {
-	String() string
-	Html() string
-}
-
 type block struct {
 	row        []model.Group
 	startPoint pos.Absolute
@@ -41,7 +36,7 @@ type BlockInput struct {
 	NameFormatter model.NameFormatter
 }
 
-func HorizontalBlock(input BlockInput) Block {
+func HorizontalBlock(input BlockInput) model.Group {
 	rowInput := make([]Input, 0)
 	rowNumber := input.Criteria.Row
 
@@ -87,7 +82,7 @@ func HorizontalBlock(input BlockInput) Block {
 	return block
 }
 
-func VerticalBlock(input BlockInput) Block {
+func VerticalBlock(input BlockInput) model.Group {
 	rowInput := make([]Input, 0)
 	rowNumber := input.Criteria.Row
 
