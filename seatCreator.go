@@ -140,10 +140,19 @@ func ConcertHall2F() model.Group {
 	return hall
 }
 
+func copy(seating model.Group) {
+	err := clipboard.WriteAll(seating.String())
+	if err != nil {
+		fmt.Println("Error occured when copying")
+		return
+	}
+	fmt.Println("Copied!")
+}
+
 func handler(c *gin.Context) {
-	target := ConcertHall1F()
-	fmt.Fprintf(c.Writer, "<h1>Seats Map</h1><body>%s</body>", target.Html())
-	clipboard.WriteAll(target.String())
+	target := ConcertHall1F() // Put Seating Here
+	fmt.Fprintf(c.Writer, "<h1>Seats Map</h1><body>\n%s\n</body>", target.Html())
+	copy(target)
 }
 
 func main() {
