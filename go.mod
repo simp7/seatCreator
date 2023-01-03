@@ -5,6 +5,7 @@ go 1.19
 require github.com/stretchr/testify v1.8.1
 
 require (
+	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.8.2 // indirect

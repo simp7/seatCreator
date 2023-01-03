@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/atotto/clipboard"
 	"github.com/gin-gonic/gin"
 	"github.com/simp7/seatCreator/model"
 	"github.com/simp7/seatCreator/model/eraser"
@@ -142,6 +143,7 @@ func ConcertHall2F() model.Group {
 func handler(c *gin.Context) {
 	target := ConcertHall1F()
 	fmt.Fprintf(c.Writer, "<h1>Seats Map</h1><body>%s</body>", target.Html())
+	clipboard.WriteAll(target.String())
 }
 
 func main() {
