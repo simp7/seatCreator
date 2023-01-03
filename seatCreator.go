@@ -140,7 +140,7 @@ func ConcertHall2F() model.Group {
 }
 
 func handler(c *gin.Context) {
-	target := ConcertHall2F()
+	target := ConcertHall1F()
 	fmt.Fprintf(c.Writer, "<h1>Seats Map</h1><body>%s</body>", target.Html())
 }
 

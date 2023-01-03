@@ -2,7 +2,7 @@
 PID_FILE = /tmp/my-app.pid
 # We can use such syntax to get main.go and other root Go files.
 GO_FILES = $(wildcard *.go)
-
+PROJECT_PATH = $(HOME)/seatCreator
 # Start task performs "go run main.go" command and writes it's process id to PID_FILE.
 start:
 	go run $(GO_FILES) & echo $$! > $(PID_FILE)
@@ -25,7 +25,7 @@ restart: stop before start
 
 	# Serve task will run fswatch monitor and performs restart task if any source file changed. Before serving it will execute start task.
 serve: start
-	fswatch -or --event=Updated /home/parla-go/src | \
+	fswatch -or --event=Updated $(PROJECT_PATH) | \
 	xargs -n1 -I {} make restart
   
 # .PHONY is used for reserving tasks words
