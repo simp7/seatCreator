@@ -17,7 +17,7 @@ func (b block) String() string {
 	for _, v := range b.row {
 		result = append(result, v.String())
 	}
-	return strings.Join(result, "\n")
+	return strings.Join(result, ", ")
 }
 
 func (b block) Html() string {

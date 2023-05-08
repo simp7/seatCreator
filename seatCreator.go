@@ -6,6 +6,7 @@ import (
 	"github.com/atotto/clipboard"
 	"github.com/gin-gonic/gin"
 	"github.com/simp7/seatCreator/model"
+	"github.com/simp7/seatCreator/model/area"
 	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
@@ -30,10 +31,6 @@ func ArtriumSmall() model.Group {
 	}
 
 	return group.HorizontalBlock(blockInput)
-}
-
-func OperaHouse() model.Group {
-	return ArtriumSmall()
 }
 
 func ConcertHall1F() model.Group {
@@ -140,8 +137,8 @@ func ConcertHall2F() model.Group {
 	return hall
 }
 
-func copy(seating model.Group) {
-	err := clipboard.WriteAll(seating.String())
+func copy(target model.Group) {
+	err := clipboard.WriteAll(target.String())
 	if err != nil {
 		fmt.Println("Error occured when copying")
 		return
@@ -150,7 +147,15 @@ func copy(seating model.Group) {
 }
 
 func handler(c *gin.Context) {
-	target := ArtriumSmall() // Put Seating Here
+	seats := ArtriumSmall() // Put Seating Here
+	target := area.Area{
+		Key:             "1F",
+		Seats:           seats,
+		XSize:           21,
+		YSize:           12,
+		BackgroundImage: "",
+		Color:           "#ff9f00",
+	}
 	fmt.Fprintf(c.Writer, "<h1>Seats Map</h1><body>\n%s\n</body>", target.Html())
 	copy(target)
 }
