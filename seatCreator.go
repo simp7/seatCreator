@@ -40,7 +40,7 @@ func ConcertHall1F() model.Group {
 	vHall := eraser.VerticalHallway(14, 35)
 	hHall := eraser.HorizontalHallway(16, 17, 18, 19)
 	integrated := eraser.Integrated(vHall, hHall)
-	nameFormatter := nameformatter.Floor(nameformatter.Standard(), 1)
+	nameFormatter := nameformatter.Standard()
 
 	vipHall := eraser.VerticalHallway(3, 5, 7, 9, 11, 13, 36, 38, 40, 42, 44, 46)
 	empty := eraser.Rectangle(pos.Absolute{X: 14, Y: 26}, pos.Absolute{X: 35, Y: 26})
@@ -150,7 +150,7 @@ func copy(seating model.Group) {
 }
 
 func handler(c *gin.Context) {
-	target := ConcertHall1F() // Put Seating Here
+	target := ArtriumSmall() // Put Seating Here
 	fmt.Fprintf(c.Writer, "<h1>Seats Map</h1><body>\n%s\n</body>", target.Html())
 	copy(target)
 }
