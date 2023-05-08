@@ -2,7 +2,7 @@
 PID_FILE = /tmp/my-app.pid
 # We can use such syntax to get main.go and other root Go files.
 GO_FILES = $(wildcard *.go)
-PROJECT_PATH = $(HOME)/seatCreator
+PROJECT_PATH = $(shell pwd)
 # Start task performs "go run main.go" command and writes it's process id to PID_FILE.
 start:
 	go run $(GO_FILES) & echo $$! > $(PID_FILE)
