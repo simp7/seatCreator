@@ -19,7 +19,7 @@ type Area struct {
 func (a Area) String() string {
 	areaKey := fmt.Sprintf("area_key: \"%s\"", a.Key)
 	xSize := fmt.Sprintf("x_size: %d", a.XSize)
-	ySize := fmt.Sprintf("y_size: %d", a.YSize)
+	ySize := fmt.Sprintf("x_size: %d", a.YSize)
 	backgroundImage := fmt.Sprintf("background_image: \"%s\"", a.BackgroundImage)
 	color := fmt.Sprintf("color: \"%s\"", a.Color)
 	seats := fmt.Sprintf("seats: [%s]", a.Seats)
