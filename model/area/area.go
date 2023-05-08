@@ -8,23 +8,23 @@ import (
 )
 
 type Area struct {
-	Key             string
-	XSize           int32
-	YSize           int32
-	BackgroundImage string
-	Color           string
-	Seats           model.Group
+	Key             string      `json:"area_key"`
+	XSize           int32       `json:"x_size"`
+	YSize           int32       `json:"y_size"`
+	BackgroundImage string      `json:"background_image"`
+	Color           string      `json:"color"`
+	Seats           model.Group `json:"seats"`
 }
 
 func (a Area) String() string {
-	areaKey := "area_key: " + a.Key
+	areaKey := fmt.Sprintf("area_key: \"%s\"", a.Key)
 	xSize := fmt.Sprintf("x_size: %d", a.XSize)
 	ySize := fmt.Sprintf("x_size: %d", a.YSize)
-	backgroundImage := "background_image: " + a.BackgroundImage
-	color := "color: " + a.Color
-	seats := "seats: " + a.Seats.String()
+	backgroundImage := fmt.Sprintf("background_image: \"%s\"", a.BackgroundImage)
+	color := fmt.Sprintf("color: \"%s\"", a.Color)
+	seats := fmt.Sprintf("seats: [%s]", a.Seats)
 	result := []string{areaKey, xSize, ySize, backgroundImage, color, seats}
-	return strings.Join(result, ",\n")
+	return "{\n" + strings.Join(result, ",\n") + "\n}"
 }
 
 func (a Area) Html() string {
