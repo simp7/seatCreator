@@ -14,18 +14,24 @@ import (
 )
 
 func ArtriumSmall() model.Group {
-	hall := eraser.VerticalHallway(13, 14)
-	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 6, Y: 5})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 15}, pos.Absolute{X: 7, Y: 15})
-	specific := eraser.Position(pos.Absolute{X: 3, Y: 6})
-	integrated := eraser.Integrated(hall, rect1, rect2, specific)
+	hall := eraser.HorizontalHallway(9)
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 4, Y: 8})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 25, Y: 4}, pos.Absolute{X: 27, Y: 8})
+	rect3 := eraser.Rectangle(pos.Absolute{X: 3, Y: 10}, pos.Absolute{X: 4, Y: 12})
+	rect4 := eraser.Rectangle(pos.Absolute{X: 26, Y: 10}, pos.Absolute{X: 27, Y: 12})
+	rect5 := eraser.Rectangle(pos.Absolute{X: 7, Y: 10}, pos.Absolute{X: 7, Y: 23})
+	rect6 := eraser.Rectangle(pos.Absolute{X: 23, Y: 10}, pos.Absolute{X: 23, Y: 23})
+	rect7 := eraser.Rectangle(pos.Absolute{X: 8, Y: 22}, pos.Absolute{X: 22, Y: 22})
+	specific1 := eraser.Position(pos.Absolute{X: 24, Y: 5})
+	specific2 := eraser.Position(pos.Absolute{X: 8, Y: 21})
+	integrated := eraser.Integrated(hall, rect1, rect2, rect3, rect4, rect5, rect6, rect7, specific1, specific2)
 	nameFormatter := nameformatter.Standard()
 
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         21,
-		YSize:         12,
+		XSize:         25,
+		YSize:         19,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 	}
@@ -151,8 +157,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           21,
-		YSize:           12,
+		XSize:           25,
+		YSize:           20,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
