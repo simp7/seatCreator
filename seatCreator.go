@@ -153,23 +153,139 @@ func ConcertHall1F() model.Group {
 	return group.Mixed(block1, block2, block3)
 }
 
-func ConcertHall2F() model.Group {
-	vHall := eraser.VerticalHallway(7,27)
-	integrated := eraser.Integrated(vHall)
-	nameFormatter := nameformatter.Standard()
+	func ConcertHall2F() model.Group {
+		nameFormatter := nameformatter.Standard()
+		top1 := func() model.Group {
+			base := model.NewSeatBase(6, 2, "B석 C1열")
+			seat := model.NewSeat(base, 1, 3)
+			integrated := eraser.Integrated()
+			return group.HorizontalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         32,
+				YSize:         1,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+		top2 := func() model.Group {
+			base := model.NewSeatBase(7, 3, "B석 C2열")
+			seat := model.NewSeat(base, 2, 3)
+			integrated := eraser.Integrated()
+			return group.HorizontalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         30,
+				YSize:         1,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
 
-	base := model.NewSeatBase(2, 8, "A석")
-	blockInput := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         31,
-		YSize:         7,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
+		top3 := func() model.Group {
+			base := model.NewSeatBase(8, 4, "B석 C3열")
+			seat := model.NewSeat(base, 3, 3)
+			integrated := eraser.Integrated()
+			return group.HorizontalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         28,
+				YSize:         1,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+
+		left1 := func() model.Group {
+			base := model.NewSeatBase(3, 5, "A석 L3열")
+			seat := model.NewSeat(base, 1, 12)
+			integrated := eraser.Integrated()
+			return group.VerticalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         1,
+				YSize:         21,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+
+		left2 := func() model.Group {
+			base := model.NewSeatBase(2, 6, "A석 L2열")
+			seat := model.NewSeat(base, 2, 12)
+			integrated := eraser.Integrated()
+			return group.VerticalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         1,
+				YSize:         20,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+
+		left3 := func() model.Group {
+			base := model.NewSeatBase(1, 7, "A석 L1열")
+			seat := model.NewSeat(base, 3, 12)
+			integrated := eraser.Integrated()
+			return group.VerticalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         1,
+				YSize:         19,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+
+		right1 := func() model.Group {
+			base := model.NewSeatBase(40, 5, "A석 R1열")
+			seat := model.NewSeat(base, 1, 18)
+			integrated := eraser.Integrated()
+			return group.VerticalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         1,
+				YSize:         21,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+
+		right2 := func() model.Group {
+			base := model.NewSeatBase(41, 6, "A석 R2열")
+			seat := model.NewSeat(base, 2, 18)
+			integrated := eraser.Integrated()
+			return group.VerticalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         1,
+				YSize:         20,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+
+		right3 := func() model.Group {
+			base := model.NewSeatBase(42, 7, "A석 R3열")
+			seat := model.NewSeat(base, 3, 18)
+			integrated := eraser.Integrated()
+			return group.VerticalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         1,
+				YSize:         19,
+				NameFormatter: nameFormatter,
+				EmptyChecker:  integrated,
+			})
+		}
+
+		bottom := func() model.Group {
+			base := model.NewSeatBase(5, 24, "S석")
+			seat := model.NewSeat(base, 1, 1)
+			empty := eraser.VerticalHallway(14, 29)
+			return group.HorizontalBlock(group.BlockInput{
+				Criteria:      seat,
+				XSize:         34,
+				YSize:         7,
+				NameFormatter: nameformatter.Floor(nameformatter.Standard(), 2),
+				EmptyChecker:  empty,
+			})
+		}
+		hall := group.Mixed(top1(), top2(),top3(), left1(),left2(),left3(), right1(),right2(),right3(), bottom())
+		return hall
 	}
-
-	block1 := group.HorizontalBlock(blockInput)
-	return group.Mixed(block1)
-}
 
 
 func copy(target model.Group) {
@@ -186,8 +302,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "2F",
 		Seats:           seats,
-		XSize:           20,
-		YSize:           12,
+		XSize:           33,
+		YSize:           10,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
