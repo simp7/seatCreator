@@ -114,7 +114,7 @@ func ConcertHall1F() model.Group {
 
 	nameFormatter := nameformatter.Standard()
 
-	base := model.NewSeatBase(2, 8, "A석")
+	base := model.NewSeatBase(2, 8, "R석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         46,
@@ -125,7 +125,7 @@ func ConcertHall1F() model.Group {
 
 	integrated2 := eraser.Integrated()
 
-	base = model.NewSeatBase(15, 25, "A석")
+	base = model.NewSeatBase(15, 25, "R석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 13, 15),
 		XSize:         20,
@@ -144,7 +144,7 @@ func ConcertHall1F() model.Group {
 		XSize:         46,
 		YSize:         1,
 		EmptyChecker:  integrated3,
-		NameFormatter: nameformatter.Floor(nameformatter.Prefix('W'), 2),
+		NameFormatter: nameformatter.Floor(nameformatter.Prefix("W석"), 2),
 	}
 
 	block1 := group.HorizontalBlock(blockInput)
@@ -154,119 +154,118 @@ func ConcertHall1F() model.Group {
 }
 
 	func ConcertHall2F() model.Group {
-		nameFormatter := nameformatter.Standard()
 		top1 := func() model.Group {
-			base := model.NewSeatBase(6, 2, "B석 C1열")
+			base := model.NewSeatBase(6, 2, "B석")
 			seat := model.NewSeat(base, 1, 3)
 			integrated := eraser.Integrated()
 			return group.HorizontalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         32,
 				YSize:         1,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("C1열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 		top2 := func() model.Group {
-			base := model.NewSeatBase(7, 3, "B석 C2열")
+			base := model.NewSeatBase(7, 3, "B석")
 			seat := model.NewSeat(base, 2, 3)
 			integrated := eraser.Integrated()
 			return group.HorizontalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         30,
 				YSize:         1,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("C2열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 
 		top3 := func() model.Group {
-			base := model.NewSeatBase(8, 4, "B석 C3열")
+			base := model.NewSeatBase(8, 4, "B석")
 			seat := model.NewSeat(base, 3, 3)
 			integrated := eraser.Integrated()
 			return group.HorizontalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         28,
 				YSize:         1,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("C3열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 
 		left1 := func() model.Group {
-			base := model.NewSeatBase(3, 5, "A석 L3열")
+			base := model.NewSeatBase(3, 5, "A석")
 			seat := model.NewSeat(base, 1, 12)
 			integrated := eraser.Integrated()
 			return group.VerticalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         1,
 				YSize:         21,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("L3열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 
 		left2 := func() model.Group {
-			base := model.NewSeatBase(2, 6, "A석 L2열")
+			base := model.NewSeatBase(2, 6, "A석")
 			seat := model.NewSeat(base, 2, 12)
 			integrated := eraser.Integrated()
 			return group.VerticalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         1,
 				YSize:         20,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("L2열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 
 		left3 := func() model.Group {
-			base := model.NewSeatBase(1, 7, "A석 L1열")
+			base := model.NewSeatBase(1, 7, "A석")
 			seat := model.NewSeat(base, 3, 12)
 			integrated := eraser.Integrated()
 			return group.VerticalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         1,
 				YSize:         19,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("L1열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 
 		right1 := func() model.Group {
-			base := model.NewSeatBase(40, 5, "A석 R1열")
+			base := model.NewSeatBase(40, 5, "A석")
 			seat := model.NewSeat(base, 1, 18)
 			integrated := eraser.Integrated()
 			return group.VerticalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         1,
 				YSize:         21,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("R1열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 
 		right2 := func() model.Group {
-			base := model.NewSeatBase(41, 6, "A석 R2열")
+			base := model.NewSeatBase(41, 6, "A석")
 			seat := model.NewSeat(base, 2, 18)
 			integrated := eraser.Integrated()
 			return group.VerticalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         1,
 				YSize:         20,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("R2열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
 
 		right3 := func() model.Group {
-			base := model.NewSeatBase(42, 7, "A석 R3열")
+			base := model.NewSeatBase(42, 7, "A석")
 			seat := model.NewSeat(base, 3, 18)
 			integrated := eraser.Integrated()
 			return group.VerticalBlock(group.BlockInput{
 				Criteria:      seat,
 				XSize:         1,
 				YSize:         19,
-				NameFormatter: nameFormatter,
+				NameFormatter: nameformatter.Floor(nameformatter.Prefix("R3열"), 2),
 				EmptyChecker:  integrated,
 			})
 		}
@@ -298,12 +297,12 @@ func copy(target model.Group) {
 }
 
 func handler(c *gin.Context) {
-	seats := ConcertHall2F() // Put Seating Here
+	seats := ConcertHall1F() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "1F",
 		Seats:           seats,
-		XSize:           33,
-		YSize:           10,
+		XSize:           46,
+		YSize:           17,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
