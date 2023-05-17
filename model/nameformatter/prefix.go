@@ -7,7 +7,7 @@ import (
 )
 
 type prefixFormatter struct {
-	prefix  rune
+	prefix  string
 	index   int
 	hashMap map[model.Seat]int
 }
@@ -23,10 +23,10 @@ func (p *prefixFormatter) Short(input model.Seat) string {
 		index = p.index
 		p.index++
 	}
-	return fmt.Sprintf("%c%s", p.prefix, twoDigit(index))
+	return fmt.Sprintf("%s%s", p.prefix, twoDigit(index))
 }
 
-func Prefix(prefix rune) model.NameFormatter {
+func Prefix(prefix string) model.NameFormatter {
 	hashMap := make(map[model.Seat]int)
 	return &prefixFormatter{
 		prefix:  prefix,
