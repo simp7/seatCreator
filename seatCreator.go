@@ -14,77 +14,92 @@ import (
 )
 
 func ArtriumSmall() model.Group {
-	rect1 := eraser.Rectangle(pos.Absolute{X: 15, Y: 4}, pos.Absolute{X: 15, Y: 11})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 3, Y: 11}, pos.Absolute{X: 8, Y: 11})
-	rect3 := eraser.Rectangle(pos.Absolute{X: 3, Y: 12}, pos.Absolute{X: 8, Y: 12})
+	hall := eraser.VerticalHallway(9,18)
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 5, Y: 5})
+	specific := eraser.Position(pos.Absolute{X: 17,Y: 4}, pos.Absolute{X: 25,Y: 4}, pos.Absolute{X: 25,Y: 5})
 
-	specific1 := eraser.Position(pos.Absolute{X: 14, Y: 5}, pos.Absolute{X: 14,Y: 10})
-
-	integrated := eraser.Integrated(rect1,rect2,rect3, specific1)
+	integrated := eraser.Integrated(hall, rect1, specific)
 	nameFormatter := nameformatter.Standard()
 
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         13,
-		YSize:         9,
+		Criteria:      model.NewSeat(base, 4, 1),
+		XSize:         22,
+		YSize:         14,
 		EmptyChecker:  integrated,
+		NameFormatter: nameFormatter,
+	}
+
+	hall2 := eraser.VerticalHallway(9,18)
+	specific2 := eraser.Position(pos.Absolute{X: 17,Y: 6}, pos.Absolute{X: 17,Y: 8}, pos.Absolute{X: 17, Y: 10}, pos.Absolute{X: 17,Y: 12}, pos.Absolute{X: 17, Y: 14})
+	specific3 := eraser.Position(pos.Absolute{X: 25,Y: 9}, pos.Absolute{X: 25,Y: 11}, pos.Absolute{X: 25,Y:12,},pos.Absolute{X: 26,Y: 12})
+
+	integrated2 := eraser.Integrated(hall2, specific2, specific3)
+	base = model.NewSeatBase(3, 6, "A석")
+	blockInput2 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 3),
+		XSize:         23,
+		YSize:         10,
+		EmptyChecker:  integrated2,
 		NameFormatter: nameFormatter,
 	}
 	
 
 	block1 := group.HorizontalBlock(blockInput)
-	return group.Mixed(block1)
+	block2 := group.HorizontalBlock(blockInput2)
+	return group.Mixed(block1, block2)
 }
 
 func ConcertHall1F() model.Group {
-	hall1 := eraser.VerticalHallway(14,35)
-	hall2 := eraser.HorizontalHallway(16,17,18)
+	// hall1 := eraser.VerticalHallway(12,13)
+	// rect1 := eraser.Rectangle(pos.Absolute{X: 2, Y: 5}, pos.Absolute{X: 2, Y: 6})
+	// rect2 := eraser.Rectangle(pos.Absolute{X: 24, Y: 4}, pos.Absolute{X: 24, Y: 10})
+	// rect3 := eraser.Rectangle(pos.Absolute{X: 23, Y: 5}, pos.Absolute{X: 23, Y: 6})
+	// rect4 := eraser.Rectangle(pos.Absolute{X: 2, Y: 11}, pos.Absolute{X: 2, Y: 13})
+	// rect5 := eraser.Rectangle(pos.Absolute{X: 23, Y: 12}, pos.Absolute{X: 24, Y: 13})
 
-	rect1 := eraser.Rectangle(pos.Absolute{X: 2, Y: 25}, pos.Absolute{X: 14, Y: 26})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 35, Y: 25}, pos.Absolute{X: 47, Y: 26})
+	// specific := eraser.Position(pos.Absolute{X: 3,Y: 12}, pos.Absolute{X: 22,Y: 12})
 
-	integrated := eraser.Integrated(hall1,hall2,rect1,rect2)
-
+	// integrated := eraser.Integrated(hall1,rect1, rect2,rect3,rect4,rect5, specific)
 	nameFormatter := nameformatter.Standard()
 
-	base := model.NewSeatBase(2, 8, "A석")
-	blockInput := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         46,
-		YSize:         17,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
+	base := model.NewSeatBase(2, 4, "A석")
+	// blockInput := group.BlockInput{
+	// 	Criteria:      model.NewSeat(base, 1, 1),
+	// 	XSize:         23,
+	// 	YSize:         10,
+	// 	EmptyChecker:  integrated,
+	// 	NameFormatter: nameFormatter,
+	// }
 
-	integrated2 := eraser.Integrated()
 
-	base = model.NewSeatBase(15, 25, "A석")
-	blockInput2 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 13, 15),
-		XSize:         20,
-		YSize:         2,
-		EmptyChecker:  integrated2,
-		NameFormatter: nameFormatter,
-	}
+	// integrated2 := eraser.Integrated()
+	// base = model.NewSeatBase(4, 14, "A석")
+	// blockInput2 := group.BlockInput{
+	// 	Criteria:      model.NewSeat(base, 1, 11),
+	// 	XSize:         13,
+	// 	YSize:         1,
+	// 	EmptyChecker:  integrated2,
+	// 	NameFormatter: nameFormatter,
+	// }
 
-	rect3 := eraser.Rectangle(pos.Absolute{X: 8, Y: 25}, pos.Absolute{X: 35, Y: 26})
-	rect4 := eraser.Rectangle(pos.Absolute{X: 41, Y: 25}, pos.Absolute{X: 48, Y: 26})
-	integrated3 := eraser.Integrated(rect3,rect4)
+	rect6 := eraser.Rectangle(pos.Absolute{X: 16, Y: 16}, pos.Absolute{X: 17, Y: 17})
+	specific2 := eraser.Position(pos.Absolute{X: 20,Y: 16})
+	integrated3 := eraser.Integrated(rect6,specific2)
 
-	base = model.NewSeatBase(2, 25, "휠체어석")
+	base = model.NewSeatBase(6, 16, "A석")
 	blockInput3 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 22),
-		XSize:         46,
-		YSize:         1,
+		Criteria:      model.NewSeat(base, 1, 12),
+		XSize:         15,
+		YSize:         2,
 		EmptyChecker:  integrated3,
-		NameFormatter: nameformatter.Floor(nameformatter.Prefix('W'), 2),
+		NameFormatter: nameFormatter,
 	}
 
-	block1 := group.HorizontalBlock(blockInput)
-	block2 := group.HorizontalBlock(blockInput2)
+	// block1 := group.HorizontalBlock(blockInput)
+	// block2 := group.HorizontalBlock(blockInput2)
 	block3 := group.HorizontalBlock(blockInput3)
-	return group.Mixed(block1, block2, block3)
+	return group.Mixed(block3)
 }
 
 	func ConcertHall2F() model.Group {
@@ -232,12 +247,12 @@ func copy(target model.Group) {
 }
 
 func handler(c *gin.Context) {
-	seats := ArtriumSmall() // Put Seating Here
+	seats := ConcertHall1F() // Put Seating Here
 	target := area.Area{
-		Key:             "1F",
+		Key:             "2F",
 		Seats:           seats,
-		XSize:           13,
-		YSize:           9,
+		XSize:           23,
+		YSize:           12,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
