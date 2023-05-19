@@ -14,70 +14,60 @@ import (
 )
 
 func ArtriumSmall() model.Group {
-	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 11}, pos.Absolute{X: 4, Y: 11})
 
-	integrated := eraser.Integrated(rect1)
-	nameFormatter := nameformatter.Standard()
+	integrated := eraser.Integrated()
 
-	base := model.NewSeatBase(3, 4, "A석")
+	base := model.NewSeatBase(3, 4, "VIP석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         11,
+		XSize:         9,
 		YSize:         7,
 		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
+		NameFormatter: nameformatter.Floor(nameformatter.Prefix('A'),2),
 	}
 
-	integrated2 := eraser.Integrated()
-	base = model.NewSeatBase(5, 11, "A석")
+	rect1 := eraser.Rectangle(pos.Absolute{X: 20,Y: 4},pos.Absolute{X: 20,Y: 5})
+	specific := eraser.Position(pos.Absolute{X: 20,Y: 7})
+	integrated2 := eraser.Integrated(rect1, specific)
+	base = model.NewSeatBase(13, 4, "VIP석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 3, 8),
-		XSize:         9,
-		YSize:         1,
+		XSize:         8,
+		YSize:         7,
 		EmptyChecker:  integrated2,
-		NameFormatter: nameFormatter,
+		NameFormatter: nameformatter.Floor(nameformatter.Prefix('B'),2),
 	}
 
-	specific := eraser.Position(pos.Absolute{X: 24,Y: 11})
-	integrated3 := eraser.Integrated(specific)
-	base = model.NewSeatBase(15, 4, "B석")
-	blockInput3 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         10,
-		YSize:         8,
-		EmptyChecker:  integrated3,
-		NameFormatter: nameFormatter,
-	}
 	
-	specific2 := eraser.Position(pos.Absolute{X: 13, Y: 13})
-	integrated4 := eraser.Integrated(specific2)
-	base = model.NewSeatBase(5, 13, "A석")
-	blockInput4 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 3, 9),
-		XSize:         9,
-		YSize:         2,
-		EmptyChecker:  integrated4,
-		NameFormatter: nameFormatter,
-	}
-
-	specific3 := eraser.Position(pos.Absolute{X: 13, Y: 13})
-	integrated5 := eraser.Integrated(specific3)
-	base = model.NewSeatBase(14, 13, "B석")
-	blockInput5 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 9),
-		XSize:         10,
-		YSize:         2,
-		EmptyChecker:  integrated5,
-		NameFormatter: nameFormatter,
-	}
+	// specific2 := eraser.Position(pos.Absolute{X: 24,Y: 11})
+	// integrated3 := eraser.Integrated( specific2)
+	// base = model.NewSeatBase(2, 12, "A석")
+	// blockInput3 := group.BlockInput{
+	// 	Criteria:      model.NewSeat(base, 1, 1),
+	// 	XSize:         10,
+	// 	YSize:         4,
+	// 	EmptyChecker:  integrated3,
+	// 	NameFormatter: nameformatter.Floor(nameformatter.Prefix('C'),2),
+	// }
+	
+	// rect2 := eraser.Rectangle(pos.Absolute{X: 20,Y: 12},pos.Absolute{X: 20,Y: 13})
+	// specific3 := eraser.Position(pos.Absolute{X: 20, Y: 15})
+	// integrated4 := eraser.Integrated(rect2, specific3)
+	// base = model.NewSeatBase(13, 12, "A석")
+	// blockInput4 := group.BlockInput{
+	// 	Criteria:      model.NewSeat(base, 3, 9),
+	// 	XSize:         8,
+	// 	YSize:         5,
+	// 	EmptyChecker:  integrated4,
+	// 	NameFormatter: nameformatter.Floor(nameformatter.Prefix('D'),2),
+	// }
 	
 
 	block1 := group.HorizontalBlock(blockInput)
 	block2 := group.HorizontalBlock(blockInput2)
-	block3 := group.HorizontalBlock(blockInput3)
-	block4 := group.HorizontalBlock(blockInput4)
-	block5 := group.HorizontalBlock(blockInput5)
-	return group.Mixed(block1, block2, block3, block4, block5)
+	// block3 := group.HorizontalBlock(blockInput3)
+	// block4 := group.HorizontalBlock(blockInput4)
+	return group.Mixed(block1, block2)
 }
 
 func ConcertHall1F() model.Group {
@@ -264,7 +254,7 @@ func ConcertHall2F() model.Group {
 		}
 		hall := group.Mixed(top1(), top2(),top3(), left1(),left2(),left3(), right1(),right2(),right3(), bottom())
 		return hall
-}
+ }
 
 
 func copy(target model.Group) {
@@ -281,8 +271,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           22,
-		YSize:           12,
+		XSize:           18,
+		YSize:           13,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
