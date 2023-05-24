@@ -330,8 +330,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           24,
-		YSize:           11,
+		XSize:           36,
+		YSize:           18,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
