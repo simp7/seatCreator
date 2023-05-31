@@ -16,49 +16,52 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	integrated := eraser.Integrated()
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3,Y: 5}, pos.Absolute{X: 7,Y: 6})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 13,Y: 15}, pos.Absolute{X: 15,Y: 16})
+
+	integrated := eraser.Integrated(rect1, rect2)
 	base := model.NewSeatBase(3, 5, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         11,
-		YSize:         7,
+		XSize:         13,
+		YSize:         12,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 	}
 
-	base = model.NewSeatBase(15, 5, "B석")
+	rect3 := eraser.Rectangle(pos.Absolute{X: 17, Y: 15}, pos.Absolute{X: 19, Y: 16})
+	rect4 := eraser.Rectangle(pos.Absolute{X: 25,Y: 5}, pos.Absolute{X: 29, Y: 6})
+
+	integrated2 := eraser.Integrated(rect3, rect4)
+	base = model.NewSeatBase(17, 5, "B석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         14,
-		YSize:         7,
-		EmptyChecker:  integrated,
+		XSize:         13,
+		YSize:         12,
+		EmptyChecker:  integrated2,
 		NameFormatter: nameFormatter,
 	}
 
-	base = model.NewSeatBase(30, 5, "C석")
+	rect5 := eraser.Rectangle(pos.Absolute{X: 5,Y: 5}, pos.Absolute{X: 27, Y: 5})
+
+	integrated3 := eraser.Integrated(rect5)
+	base = model.NewSeatBase(3, 5, "휠체어석")
 	blockInput3 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         11,
-		YSize:         7,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
+		Criteria:      model.NewSeat(base, 1, 23),
+		XSize:         27,
+		YSize:         1,
+		EmptyChecker:  integrated3,
+		NameFormatter: nameformatter.Prefix('W'),
 	}
 
-	base = model.NewSeatBase(3, 3, "사이드석")
+	specific3 := eraser.Position(pos.Absolute{X: 16,Y: 3})
+	integrated4 := eraser.Integrated(rect5, specific3)
+	base = model.NewSeatBase(8, 3, "OP석")
 	blockInput4 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 26),
-		XSize:         4,
+		XSize:         17,
 		YSize:         1,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-
-	base = model.NewSeatBase(37, 3, "사이드석")
-	blockInput5 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 4, 26),
-		XSize:         4,
-		YSize:         1,
-		EmptyChecker:  integrated,
+		EmptyChecker:  integrated4,
 		NameFormatter: nameFormatter,
 	}
 
@@ -66,8 +69,7 @@ func ArtriumSmall() model.Group {
 	block2 := group.HorizontalBlock(blockInput2)
 	block3 := group.HorizontalBlock(blockInput3)
 	block4 := group.HorizontalBlock(blockInput4)
-	block5 := group.HorizontalBlock(blockInput5)
-	return group.Mixed(block1, block2, block3, block4, block5)
+	return group.Mixed(block1, block2, block3, block4)
 }
 
 func ConcertHall1F() model.Group {
@@ -269,10 +271,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ArtriumSmall() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "1F",
 		Seats:           seats,
-		XSize:           38,
-		YSize:           9,
+		XSize:           27,
+		YSize:           14,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
