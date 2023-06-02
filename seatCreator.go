@@ -15,109 +15,23 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	rectDsection1 := eraser.Rectangle(pos.Absolute{X: 5,Y: 18}, pos.Absolute{X: 5,Y: 20})
-	rectDsection2 := eraser.Rectangle(pos.Absolute{X: 6,Y: 19}, pos.Absolute{X: 6,Y: 20})
+	hall := eraser.VerticalHallway(5, 17)
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3,Y: 16}, pos.Absolute{X: 4,Y: 21})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 18, Y: 16}, pos.Absolute{X: 19, Y: 21})
+	specific := eraser.Position(pos.Absolute{X: 4,Y: 15}, pos.Absolute{X: 18, Y: 15})
 
-	rectEsection1 := eraser.Rectangle(pos.Absolute{X: 34,Y: 21}, pos.Absolute{X: 36,Y: 24})
-	rectEsection2 := eraser.Rectangle(pos.Absolute{X: 33,Y: 22}, pos.Absolute{X: 33,Y: 24})
-	rectEsection3 := eraser.Rectangle(pos.Absolute{X: 32,Y: 23}, pos.Absolute{X: 32,Y: 24})
-	specificEsection1 := eraser.Position(pos.Absolute{X: 31, Y: 24})
-
-	rectFsection1 := eraser.Rectangle(pos.Absolute{X:50, Y: 18 }, pos.Absolute{X: 50, Y: 20})
-	rectFsection2 := eraser.Rectangle(pos.Absolute{X:49, Y: 19 }, pos.Absolute{X: 49, Y: 20})
-	
-	integrated := eraser.Integrated(rectDsection1, rectDsection2 ,
-									rectEsection1, rectEsection2,rectEsection3, specificEsection1,
-									rectFsection1, rectFsection2)
-	base := model.NewSeatBase(5, 17, "D석")
+	integrated := eraser.Integrated(hall, rect1, rect2, specific)
+	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         11,
-		YSize:         4,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-
-	base = model.NewSeatBase(18, 17, "E석")
-	blockInput2 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         21,
-		YSize:         2,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-
-	base = model.NewSeatBase(22, 19, "E석")
-	blockInput4 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 5, 3),
 		XSize:         17,
-		YSize:         1,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-
-	base = model.NewSeatBase(21, 20, "E석")
-	blockInput5 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 4),
-		XSize:         16,
-		YSize:         5,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-
-
-	base = model.NewSeatBase(40, 17, "F석")
-	blockInput3 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         11,
-		YSize:         4,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-	base = model.NewSeatBase(7, 1, "L1석")
-	blockInput6 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         1,
-		YSize:         8,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-	base = model.NewSeatBase(8, 9, "L2석")
-	blockInput7 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         1,
-		YSize:         7,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-
-	base = model.NewSeatBase(46, 1, "R1석")
-	blockInput8 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         1,
-		YSize:         8,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-	base = model.NewSeatBase(45, 9, "R2석")
-	blockInput9 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         1,
-		YSize:         7,
+		YSize:         18,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 	}
 
 	block1 := group.HorizontalBlock(blockInput)
-	block2 := group.HorizontalBlock(blockInput2)
-	block3 := group.HorizontalBlock(blockInput3)
-	block4 := group.HorizontalBlock(blockInput4)
-	block5 := group.HorizontalBlock(blockInput5)
-	block6 := group.HorizontalBlock(blockInput6)
-	block7 := group.HorizontalBlock(blockInput7)
-	block8 := group.HorizontalBlock(blockInput8)
-	block9 := group.HorizontalBlock(blockInput9)
-	return group.Mixed(block1, block2, block3, block4, block5, block6, block7, block8, block9)
+	return group.Mixed(block1)
 }
 
 func copy(target model.Group) {
@@ -131,10 +45,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ArtriumSmall() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "1F",
 		Seats:           seats,
-		XSize:           45,
-		YSize:           25,
+		XSize:           17,
+		YSize:           18,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
     
