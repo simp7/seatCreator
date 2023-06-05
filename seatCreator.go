@@ -16,38 +16,21 @@ import (
 func ConcertHall1F() model.Group {
 	nameFormatter := nameformatter.Standard()
 	
-	hall := eraser.HorizontalHallway(9)
-	hall2 := eraser.VerticalHallway(8, 21)
-	rect := eraser.Rectangle(pos.Absolute{X: 9, Y: 14}, pos.Absolute{X: 11, Y: 14})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 18, Y: 14}, pos.Absolute{X: 20, Y: 14})
-	integrated := eraser.Integrated(hall, hall2, rect, rect2)
+	hall := eraser.VerticalHallway(8,21)
+	rect := eraser.Rectangle(pos.Absolute{X: 9, Y: 7}, pos.Absolute{X: 20, Y: 7})
+
+	integrated := eraser.Integrated(hall, rect)
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
+		Criteria:      model.NewSeat(base, 1, 11),
 		XSize:         24,
-		YSize:         11,
+		YSize:         4,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 	}
 
-	rect3 := eraser.Rectangle(pos.Absolute{X: 3,Y: 15},pos.Absolute{X: 6,Y: 15})
-	rect4 := eraser.Rectangle(pos.Absolute{X: 8, Y: 15}, pos.Absolute{X: 9,Y: 15})
-	rect5 := eraser.Rectangle(pos.Absolute{X: 11, Y: 15}, pos.Absolute{X: 21,Y: 15})
-	rect6 := eraser.Rectangle(pos.Absolute{X: 23, Y: 15}, pos.Absolute{X: 26,Y: 15})
-	integrated2 := eraser.Integrated(rect3, rect4, rect5, rect6)
-	base = model.NewSeatBase(3, 15, "휠체어석")
-	blockInput2 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         24,
-		YSize:         1,
-		EmptyChecker:  integrated2,
-		NameFormatter: nameformatter.Prefix('W'),
-	}
-
-
 	block1 := group.HorizontalBlock(blockInput)
-	block2 := group.HorizontalBlock(blockInput2)
-	return group.Mixed(block1, block2)
+	return group.Mixed(block1)
 }
 
 func copy(target model.Group) {
@@ -62,10 +45,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ConcertHall1F() // Put Seating Here
 	target := area.Area{
-		Key:             "1F",
+		Key:             "2F",
 		Seats:           seats,
 		XSize:           24,
-		YSize:           12,
+		YSize:           5,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
