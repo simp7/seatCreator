@@ -10,24 +10,58 @@ import (
 	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
+	"github.com/simp7/seatCreator/model/pos"
 )
 
-func ConcertHall2F() model.Group {
-	vHall := eraser.VerticalHallway(7,27)
-	integrated := eraser.Integrated(vHall)
+func ConcertHall1F() model.Group {	
 	nameFormatter := nameformatter.Standard()
-
-	base := model.NewSeatBase(2, 8, "A석")
+	
+	hall := eraser.VerticalHallway(11, 29)
+	hall2 := eraser.HorizontalHallway(15)
+	integrated := eraser.Integrated(hall, hall2)
+	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         31,
-		YSize:         7,
+		Criteria:      model.NewSeat(base, 1, 2),
+		XSize:         35,
+		YSize:         17,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 	}
 
+	base = model.NewSeatBase(4, 3, "A석")
+	blockInput2 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 2, 1),
+		XSize:         33,
+		YSize:         1,
+		EmptyChecker:  integrated,
+		NameFormatter: nameFormatter,
+	}
+
+	base = model.NewSeatBase(34, 21, "A석")
+	blockInput3 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 30, 18),
+		XSize:         4,
+		YSize:         1,
+		EmptyChecker:  integrated,
+		NameFormatter: nameFormatter,
+	}
+
+	rect3 := eraser.Rectangle(pos.Absolute{X:8,Y: 21 },pos.Absolute{X: 29, Y: 21})
+	integrated2 := eraser.Integrated(rect3)
+	base = model.NewSeatBase(4, 21, "휠체어석")
+	blockInput4 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         28,
+		YSize:         1,
+		EmptyChecker:  integrated2,
+		NameFormatter: nameformatter.Prefix('W'),
+	}
+
 	block1 := group.HorizontalBlock(blockInput)
-	return group.Mixed(block1)
+	block2 := group.HorizontalBlock(blockInput2)
+	block3 := group.HorizontalBlock(blockInput3)
+	block4 := group.HorizontalBlock(blockInput4)
+	return group.Mixed(block1, block2, block3, block4)
 }
 
 
@@ -41,12 +75,12 @@ func copy(target model.Group) {
 }
 
 func handler(c *gin.Context) {
-	seats := ConcertHall2F() // Put Seating Here
+	seats := ConcertHall1F() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "1F",
 		Seats:           seats,
-		XSize:           31,
-		YSize:           7,
+		XSize:           35,
+		YSize:           19,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
