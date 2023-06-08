@@ -28,6 +28,7 @@ func ArtriumSmall() model.Group {
 		YSize:         12,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
+		Reverse:       true,
 	}
 
 	return group.HorizontalBlock(blockInput)

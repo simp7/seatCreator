@@ -70,6 +70,25 @@ func HorizontalRow(input Input) model.Group {
 	return row
 }
 
+func HorizontalReverseRow(input Input) model.Group {
+	y := input.Criteria.Y
+	seatType := input.Criteria.SeatType
+	seats := make([]model.Seat, 0)
+
+	posList := relativePositionList(input.Criteria.X, input.Amount, input.EmptyPos)
+
+	for i := range posList {
+		inputBase := model.NewSeatBase(posList[len(posList)-i-1], y, seatType)
+		seats = append(seats, model.NewSeat(inputBase, i+input.Criteria.Index-1, input.Criteria.Row))
+	}
+
+	row := new(linear)
+
+	row.seats = seats
+	row.nameFormatter = input.NameFormatter
+	return row
+}
+
 func VerticalRow(input Input) model.Group {
 	x := input.Criteria.X
 	seatType := input.Criteria.SeatType

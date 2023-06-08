@@ -34,6 +34,7 @@ type BlockInput struct {
 	YSize         int
 	EmptyChecker  model.Eraser
 	NameFormatter model.NameFormatter
+	Reverse       bool
 }
 
 func HorizontalBlock(input BlockInput) model.Group {
@@ -75,6 +76,10 @@ func HorizontalBlock(input BlockInput) model.Group {
 
 	block := new(block)
 	for _, v := range rowInput {
+		if input.Reverse {
+			block.row = append(block.row, HorizontalReverseRow(v))
+			continue
+		}
 		block.row = append(block.row, HorizontalRow(v))
 	}
 	block.startPoint = input.Criteria.Absolute
