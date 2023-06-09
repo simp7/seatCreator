@@ -16,25 +16,43 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 3, Y: 6})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 6}, pos.Absolute{X: 7, Y: 6}) 
-	rect3 := eraser.Rectangle(pos.Absolute{X: 7, Y: 7}, pos.Absolute{X: 7, Y: 15}) 
-	rect4 := eraser.Rectangle(pos.Absolute{X: 11, Y: 15}, pos.Absolute{X: 18, Y: 16}) 
-	rect5 := eraser.Rectangle(pos.Absolute{X: 22, Y: 6}, pos.Absolute{X: 22, Y: 15}) 
-	rect6 := eraser.Rectangle(pos.Absolute{X: 21, Y: 6}, pos.Absolute{X: 26, Y: 6}) 
-	specific := eraser.Position(pos.Absolute{X: 21, Y: 8})
-	integrated := eraser.Integrated(rect1,rect2, rect3, rect4, rect5, rect6, specific)
-	base := model.NewSeatBase(3, 4, "A석")
+	rect1 := eraser.Rectangle(pos.Absolute{X: 5, Y: 14}, pos.Absolute{X: 5, Y: 16})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 6, Y: 15}, pos.Absolute{X: 9, Y: 15})
+	rect3 := eraser.Rectangle(pos.Absolute{X: 6, Y: 16}, pos.Absolute{X: 7, Y: 16})
+	integrated := eraser.Integrated(rect1, rect2, rect3)
+	base := model.NewSeatBase(5, 13, "A석")
 	blockInput := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         24,
-		YSize:         13,
+		Criteria:      model.NewSeat(base, 1, 14),
+		XSize:         23,
+		YSize:         4,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 		Reverse:       true,
 	}
 
-	return group.HorizontalBlock(blockInput)
+	base = model.NewSeatBase(3, 4, "A석")
+	blockInput2 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         1,
+		YSize:         10,
+		EmptyChecker:  integrated,
+		NameFormatter: nameformatter.Prefix('라'),
+	}
+
+
+	base = model.NewSeatBase(29, 4, "A석")
+	blockInput3 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         1,
+		YSize:         10,
+		EmptyChecker:  integrated,
+		NameFormatter: nameformatter.Prefix('다'),
+	}
+
+	block1 := group.HorizontalBlock(blockInput)
+	block2 := group.VerticalBlock(blockInput2)
+	block3 := group.VerticalBlock(blockInput3)
+	return group.Mixed(block1,block2, block3)
 }
 
 
@@ -52,7 +70,7 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           24,
+		XSize:           29,
 		YSize:           13,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
