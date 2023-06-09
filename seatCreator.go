@@ -16,43 +16,25 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	rect1 := eraser.Rectangle(pos.Absolute{X: 5, Y: 14}, pos.Absolute{X: 5, Y: 16})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 6, Y: 15}, pos.Absolute{X: 9, Y: 15})
-	rect3 := eraser.Rectangle(pos.Absolute{X: 6, Y: 16}, pos.Absolute{X: 7, Y: 16})
-	integrated := eraser.Integrated(rect1, rect2, rect3)
-	base := model.NewSeatBase(5, 13, "A석")
+	specific := eraser.Position(pos.Absolute{X: 3, Y: 5}, pos.Absolute{X: 3,Y: 7})
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 9}, pos.Absolute{X: 3, Y: 13})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 11}, pos.Absolute{X: 4, Y: 12})
+	rect3 := eraser.Rectangle(pos.Absolute{X: 10, Y: 12}, pos.Absolute{X: 17, Y: 13})
+	rect4 := eraser.Rectangle(pos.Absolute{X: 23, Y: 11}, pos.Absolute{X: 23, Y: 12})
+	rect5 := eraser.Rectangle(pos.Absolute{X: 24, Y: 9}, pos.Absolute{X: 24, Y: 13})
+	integrated := eraser.Integrated(rect1, specific, rect2, rect3, rect4, rect5)
+	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 14),
-		XSize:         23,
-		YSize:         4,
+		XSize:         22,
+		YSize:         10,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 		Reverse:       true,
 	}
 
-	base = model.NewSeatBase(3, 4, "A석")
-	blockInput2 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         1,
-		YSize:         10,
-		EmptyChecker:  integrated,
-		NameFormatter: nameformatter.Prefix('라'),
-	}
-
-
-	base = model.NewSeatBase(29, 4, "A석")
-	blockInput3 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         1,
-		YSize:         10,
-		EmptyChecker:  integrated,
-		NameFormatter: nameformatter.Prefix('다'),
-	}
-
 	block1 := group.HorizontalBlock(blockInput)
-	block2 := group.VerticalBlock(blockInput2)
-	block3 := group.VerticalBlock(blockInput3)
-	return group.Mixed(block1,block2, block3)
+	return group.Mixed(block1)
 }
 
 
@@ -70,8 +52,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           29,
-		YSize:           13,
+		XSize:           22,
+		YSize:           10,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
