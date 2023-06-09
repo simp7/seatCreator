@@ -10,31 +10,44 @@ import (
 	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
-	"github.com/simp7/seatCreator/model/pos"
 )
 
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
-
-	specific := eraser.Position(pos.Absolute{X: 3, Y: 5}, pos.Absolute{X: 3,Y: 7})
-	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 9}, pos.Absolute{X: 3, Y: 13})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 11}, pos.Absolute{X: 4, Y: 12})
-	rect3 := eraser.Rectangle(pos.Absolute{X: 10, Y: 12}, pos.Absolute{X: 17, Y: 13})
-	rect4 := eraser.Rectangle(pos.Absolute{X: 23, Y: 11}, pos.Absolute{X: 23, Y: 12})
-	rect5 := eraser.Rectangle(pos.Absolute{X: 24, Y: 9}, pos.Absolute{X: 24, Y: 13})
-	integrated := eraser.Integrated(rect1, specific, rect2, rect3, rect4, rect5)
+	hall := eraser.VerticalHallway(13)
+ 	
+	integrated := eraser.Integrated(hall)
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         22,
-		YSize:         10,
+		XSize:         21,
+		YSize:         4,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
-		Reverse:       true,
+	}
+
+	base = model.NewSeatBase(4, 8, "A석")
+	blockInput2 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 2, 5),
+		XSize:         19,
+		YSize:         2,
+		EmptyChecker:  integrated,
+		NameFormatter: nameFormatter,
+	}
+
+	base = model.NewSeatBase(6, 10, "A석")
+	blockInput3 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 4, 7),
+		XSize:         15,
+		YSize:         3,
+		EmptyChecker:  integrated,
+		NameFormatter: nameFormatter,
 	}
 
 	block1 := group.HorizontalBlock(blockInput)
-	return group.Mixed(block1)
+	block2 := group.HorizontalBlock(blockInput2)
+	block3 := group.HorizontalBlock(blockInput3)
+	return group.Mixed(block1, block2, block3)
 }
 
 
@@ -52,7 +65,7 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           22,
+		XSize:           21,
 		YSize:           10,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
