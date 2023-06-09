@@ -16,16 +16,19 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 7}, pos.Absolute{X: 3, Y: 12})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 9}, pos.Absolute{X: 6, Y: 12})
-	rect3 := eraser.Rectangle(pos.Absolute{X: 20, Y: 11}, pos.Absolute{X: 22, Y: 12})
-	rect4 := eraser.Rectangle(pos.Absolute{X: 16, Y: 10}, pos.Absolute{X: 16, Y: 11})
-	integrated := eraser.Integrated(rect1, rect2, rect3, rect4)
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 3, Y: 6})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 6}, pos.Absolute{X: 7, Y: 6}) 
+	rect3 := eraser.Rectangle(pos.Absolute{X: 7, Y: 7}, pos.Absolute{X: 7, Y: 15}) 
+	rect4 := eraser.Rectangle(pos.Absolute{X: 11, Y: 15}, pos.Absolute{X: 18, Y: 16}) 
+	rect5 := eraser.Rectangle(pos.Absolute{X: 22, Y: 6}, pos.Absolute{X: 22, Y: 15}) 
+	rect6 := eraser.Rectangle(pos.Absolute{X: 21, Y: 6}, pos.Absolute{X: 26, Y: 6}) 
+	specific := eraser.Position(pos.Absolute{X: 21, Y: 8})
+	integrated := eraser.Integrated(rect1,rect2, rect3, rect4, rect5, rect6, specific)
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         20,
-		YSize:         9,
+		XSize:         24,
+		YSize:         13,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 		Reverse:       true,
@@ -49,8 +52,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           20,
-		YSize:           9,
+		XSize:           24,
+		YSize:           13,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
