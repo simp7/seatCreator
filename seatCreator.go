@@ -16,15 +16,18 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 10}, pos.Absolute{X: 3, Y:  11})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 10}, pos.Absolute{X: 4, Y:  10})
-	rect3 := eraser.Rectangle(pos.Absolute{X: 24, Y: 10}, pos.Absolute{X: 25, Y:  11})
-	integrated := eraser.Integrated(rect1, rect2, rect3)
-	base := model.NewSeatBase(3, 10, "A석")
+	specific := eraser.Position(pos.Absolute{X: 3, Y: 5}, pos.Absolute{X: 3,Y: 7})
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 9}, pos.Absolute{X: 3, Y: 13})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 11}, pos.Absolute{X: 4, Y: 12})
+	rect3 := eraser.Rectangle(pos.Absolute{X: 10, Y: 12}, pos.Absolute{X: 17, Y: 13})
+	rect4 := eraser.Rectangle(pos.Absolute{X: 23, Y: 11}, pos.Absolute{X: 23, Y: 12})
+	rect5 := eraser.Rectangle(pos.Absolute{X: 24, Y: 9}, pos.Absolute{X: 24, Y: 13})
+	integrated := eraser.Integrated(rect1, specific, rect2, rect3, rect4, rect5)
+	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 11),
-		XSize:         23,
-		YSize:         3,
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         22,
+		YSize:         10,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 		Reverse:       true,
@@ -47,10 +50,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ArtriumSmall() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "1F",
 		Seats:           seats,
-		XSize:           23,
-		YSize:           13,
+		XSize:           22,
+		YSize:           10,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
