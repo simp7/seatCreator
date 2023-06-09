@@ -10,29 +10,54 @@ import (
 	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
-	"github.com/simp7/seatCreator/model/pos"
 )
 
 func ArtriumSmall() model.Group {
-	nameFormatter := nameformatter.Standard()
-	
-	hall := eraser.VerticalHallway(15)
-	rect1 := eraser.Rectangle(pos.Absolute{X: 26, Y: 4},pos.Absolute{X: 28, Y: 5})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 15, Y: 11},pos.Absolute{X: 20, Y: 12})
-	rect3 := eraser.Rectangle(pos.Absolute{X: 8, Y: 12},pos.Absolute{X: 9, Y: 12})
-	specific := eraser.Position(pos.Absolute{X: 9, Y: 11})
-	integrated := eraser.Integrated(hall, rect1, rect2,rect3, specific)
+
+	integrated := eraser.Integrated()
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         26,
-		YSize:         9,
+		XSize:         6,
+		YSize:         11,
 		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
+		NameFormatter: nameformatter.Prefix('A'),
+	}
+
+	base = model.NewSeatBase(10, 4, "B석")
+	blockInput2 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         6,
+		YSize:         11,
+		EmptyChecker:  integrated,
+		NameFormatter: nameformatter.Prefix('B'),
 		Reverse:       true,
 	}
 
-	return group.HorizontalBlock(blockInput)
+	base = model.NewSeatBase(3, 16, "C석")
+	blockInput3 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         6,
+		YSize:         3,
+		EmptyChecker:  integrated,
+		NameFormatter: nameformatter.Prefix('C'),
+	}
+
+	base = model.NewSeatBase(10, 16, "D석")
+	blockInput4 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         6,
+		YSize:         3,
+		EmptyChecker:  integrated,
+		NameFormatter: nameformatter.Prefix('D'),
+		Reverse:       true,
+	}
+
+	block1 := group.HorizontalBlock(blockInput)
+	block2 := group.HorizontalBlock(blockInput2)
+	block3 := group.HorizontalBlock(blockInput3)
+	block4 := group.HorizontalBlock(blockInput4)
+	return group.Mixed(block1, block2, block3, block4)
 }
 
 
@@ -50,8 +75,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           26,
-		YSize:           9,
+		XSize:           13,
+		YSize:           15,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
