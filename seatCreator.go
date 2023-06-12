@@ -10,38 +10,43 @@ import (
 	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
-	"github.com/simp7/seatCreator/model/pos"
 )
 
 func ArtriumSmall() model.Group {
 
-	rect := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 3, Y: 8})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 23, Y: 4}, pos.Absolute{X: 23, Y: 8})
  	
-	integrated := eraser.Integrated(rect, rect2)
+	integrated := eraser.Integrated()
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         10,
+		XSize:         6,
 		YSize:         6,
 		EmptyChecker:  integrated,
-		NameFormatter: nameformatter.Prefix('나'),
-		Reverse:  	   true,
+		NameFormatter: nameformatter.Prefix('A'),
 	}
 
-	base = model.NewSeatBase(14, 4, "A석")
+	base = model.NewSeatBase(10, 4, "A석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         10,
 		YSize:         6,
 		EmptyChecker:  integrated,
-		NameFormatter: nameformatter.Prefix('가'),
-		Reverse:  	   true,
+		NameFormatter: nameformatter.Prefix('B'),
+	}
+
+	base = model.NewSeatBase(21, 4, "A석")
+	blockInput3 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         6,
+		YSize:         6,
+		EmptyChecker:  integrated,
+		NameFormatter: nameformatter.Prefix('C'),
 	}
 
 	block1 := group.HorizontalBlock(blockInput)
 	block2 := group.HorizontalBlock(blockInput2)
-	return group.Mixed(block1, block2)
+	block3 := group.HorizontalBlock(blockInput3)
+	return group.Mixed(block1, block2, block3)
 }
 
 
@@ -59,7 +64,7 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           21,
+		XSize:           24,
 		YSize:           6,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
