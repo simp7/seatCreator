@@ -10,44 +10,38 @@ import (
 	"github.com/simp7/seatCreator/model/eraser"
 	"github.com/simp7/seatCreator/model/group"
 	"github.com/simp7/seatCreator/model/nameformatter"
+	"github.com/simp7/seatCreator/model/pos"
 )
 
 func ArtriumSmall() model.Group {
-	nameFormatter := nameformatter.Standard()
-	hall := eraser.VerticalHallway(13)
+
+	rect := eraser.Rectangle(pos.Absolute{X: 3, Y: 4}, pos.Absolute{X: 3, Y: 8})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 23, Y: 4}, pos.Absolute{X: 23, Y: 8})
  	
-	integrated := eraser.Integrated(hall)
+	integrated := eraser.Integrated(rect, rect2)
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         21,
-		YSize:         4,
+		XSize:         10,
+		YSize:         6,
 		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
+		NameFormatter: nameformatter.Prefix('나'),
+		Reverse:  	   true,
 	}
 
-	base = model.NewSeatBase(4, 8, "A석")
+	base = model.NewSeatBase(14, 4, "A석")
 	blockInput2 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 2, 5),
-		XSize:         19,
-		YSize:         2,
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         10,
+		YSize:         6,
 		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
-	}
-
-	base = model.NewSeatBase(6, 10, "A석")
-	blockInput3 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 4, 7),
-		XSize:         15,
-		YSize:         3,
-		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
+		NameFormatter: nameformatter.Prefix('가'),
+		Reverse:  	   true,
 	}
 
 	block1 := group.HorizontalBlock(blockInput)
 	block2 := group.HorizontalBlock(blockInput2)
-	block3 := group.HorizontalBlock(blockInput3)
-	return group.Mixed(block1, block2, block3)
+	return group.Mixed(block1, block2)
 }
 
 
@@ -66,7 +60,7 @@ func handler(c *gin.Context) {
 		Key:             "1F",
 		Seats:           seats,
 		XSize:           21,
-		YSize:           10,
+		YSize:           6,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
