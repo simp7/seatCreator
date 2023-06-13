@@ -14,26 +14,46 @@ import (
 )
 
 func ArtriumSmall() model.Group {
-	nameFormatter := nameformatter.Standard()
-	
-	hallV := eraser.VerticalHallway(9)
-	rect := eraser.Rectangle(pos.Absolute{X: 3, Y: 11}, pos.Absolute{X: 4, Y: 12})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 10, Y: 12}, pos.Absolute{X: 13, Y: 12})
-	specific := eraser.Position(pos.Absolute{X: 3,Y: 9})
 
-	integrated := eraser.Integrated(hallV, rect, specific, rect2)
-	base := model.NewSeatBase(3, 4, "A석")
+	integrated := eraser.Integrated()
+	base := model.NewSeatBase(3, 4, "C석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         11,
-		YSize:         9,
+		XSize:         4,
+		YSize:         10,
 		EmptyChecker:  integrated,
-		NameFormatter: nameFormatter,
+		NameFormatter: nameformatter.Prefix('C'),
+		Reverse: true,
+	}
+
+	specific := eraser.Position(pos.Absolute{X: 8, Y: 14}, pos.Absolute{X: 19, Y: 14})
+	integrated3 := eraser.Integrated(specific)
+	base = model.NewSeatBase(8, 4, "B석")
+	blockInput2 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         12,
+		YSize:         11,
+		EmptyChecker:  integrated3,
+		NameFormatter: nameformatter.Prefix('B'),
+		Reverse: true,
+	}
+
+	rect := eraser.Rectangle(pos.Absolute{X: 21, Y: 8}, pos.Absolute{X: 26, Y: 8})
+	integrated2 := eraser.Integrated(rect)
+	base = model.NewSeatBase(21, 4, "A석")
+	blockInput3 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         6,
+		YSize:         10,
+		EmptyChecker:  integrated2,
+		NameFormatter: nameformatter.Prefix('A'),
 		Reverse: true,
 	}
 	
 	block1 := group.HorizontalBlock(blockInput)
-	return group.Mixed(block1)
+	block2 := group.HorizontalBlock(blockInput2)
+	block3 := group.HorizontalBlock(blockInput3)
+	return group.Mixed(block1, block2, block3)
 }
 
 
@@ -51,8 +71,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           11,
-		YSize:           9,
+		XSize:           34,
+		YSize:           11,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
