@@ -16,17 +16,20 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 	
-	rect := eraser.Rectangle(pos.Absolute{X: 13, Y: 4}, pos.Absolute{X: 14, Y: 8})
-	specific := eraser.Position(pos.Absolute{X: 12,Y: 9}, pos.Absolute{X: 17, Y: 9})
+	hallV := eraser.VerticalHallway(9)
+	rect := eraser.Rectangle(pos.Absolute{X: 3, Y: 11}, pos.Absolute{X: 4, Y: 12})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 10, Y: 12}, pos.Absolute{X: 13, Y: 12})
+	specific := eraser.Position(pos.Absolute{X: 3,Y: 9})
 
-	integrated := eraser.Integrated(rect, specific)
+	integrated := eraser.Integrated(hallV, rect, specific, rect2)
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         22,
-		YSize:         6,
+		XSize:         11,
+		YSize:         9,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
+		Reverse: true,
 	}
 	
 	block1 := group.HorizontalBlock(blockInput)
@@ -48,8 +51,8 @@ func handler(c *gin.Context) {
 	target := area.Area{
 		Key:             "1F",
 		Seats:           seats,
-		XSize:           22,
-		YSize:           6,
+		XSize:           11,
+		YSize:           9,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
