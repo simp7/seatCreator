@@ -16,63 +16,67 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	Arect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 5}, pos.Absolute{X: 3, Y: 13})
-	Arect2 := eraser.Rectangle(pos.Absolute{X: 4, Y: 6}, pos.Absolute{X: 4, Y: 13})
-	Arect3 := eraser.Rectangle(pos.Absolute{X: 5, Y: 8}, pos.Absolute{X: 5, Y: 13})
-	Arect4 := eraser.Rectangle(pos.Absolute{X: 6, Y: 10}, pos.Absolute{X: 6, Y: 13})
-	Arect5 := eraser.Rectangle(pos.Absolute{X: 7, Y: 11}, pos.Absolute{X: 7, Y: 13})
-	Arect6 := eraser.Rectangle(pos.Absolute{X: 8, Y: 13}, pos.Absolute{X: 8, Y: 13})
-	integrated := eraser.Integrated(Arect1, Arect2, Arect3,Arect4,Arect5,Arect6)
-	base := model.NewSeatBase(3, 4, "A석")
+	Especific := eraser.Position(pos.Absolute{X: 13, Y: 31})
+	integrated := eraser.Integrated(Especific)
+	base := model.NewSeatBase(3, 28, "E석")
 	blockInput := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         16,
-		YSize:         10,
+		XSize:         11,
+		YSize:         5,
 		EmptyChecker:  integrated,
 		NameFormatter: nameFormatter,
 	}
 
-	Brect1 := eraser.Rectangle(pos.Absolute{X: 20, Y: 4}, pos.Absolute{X: 20, Y: 12})
-	Brect2 := eraser.Rectangle(pos.Absolute{X: 45, Y: 4}, pos.Absolute{X: 45, Y: 11})
-	Brect3 := eraser.Rectangle(pos.Absolute{X: 21, Y: 4}, pos.Absolute{X: 21, Y: 10})
-	Brect4 := eraser.Rectangle(pos.Absolute{X: 44, Y: 4}, pos.Absolute{X: 44, Y: 9})
-	Brect5 := eraser.Rectangle(pos.Absolute{X: 22, Y: 4}, pos.Absolute{X: 22, Y: 8})
-	Brect6 := eraser.Rectangle(pos.Absolute{X: 43, Y: 4}, pos.Absolute{X: 43, Y: 7})
-	Brect7 := eraser.Rectangle(pos.Absolute{X: 23, Y: 4}, pos.Absolute{X: 23, Y: 6})
-	Brect8 := eraser.Rectangle(pos.Absolute{X: 42, Y: 4}, pos.Absolute{X: 42, Y: 5})
-	Brect9 := eraser.Rectangle(pos.Absolute{X: 24, Y: 4}, pos.Absolute{X: 24, Y: 5})
-	Bspecific := eraser.Position(pos.Absolute{X: 41, Y: 4})
-	integrated2 := eraser.Integrated(Brect1,Brect2,Brect3,Brect4,Brect5,Brect6,Brect7,Brect8,Brect9, Bspecific)
-	base = model.NewSeatBase(20, 4, "B석")
+	integrated2 := eraser.Integrated()
+	base = model.NewSeatBase(15, 28, "F석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         26,
-		YSize:         10,
+		XSize:         14,
+		YSize:         5,
 		EmptyChecker:  integrated2,
 		NameFormatter: nameFormatter,
 	}
 
-	Crect1 := eraser.Rectangle(pos.Absolute{X: 62, Y: 5}, pos.Absolute{X: 62, Y: 13})
-	Crect2 := eraser.Rectangle(pos.Absolute{X: 61, Y: 6}, pos.Absolute{X: 61, Y: 13})
-	Crect3 := eraser.Rectangle(pos.Absolute{X: 60, Y: 8}, pos.Absolute{X: 60, Y: 13})
-	Crect4 := eraser.Rectangle(pos.Absolute{X: 59, Y: 10}, pos.Absolute{X: 59, Y: 13})
-	Crect5 := eraser.Rectangle(pos.Absolute{X: 58, Y: 11}, pos.Absolute{X: 58, Y: 13})
-	Crect6 := eraser.Rectangle(pos.Absolute{X: 57, Y: 13}, pos.Absolute{X: 57, Y: 13})
-	integrated3 := eraser.Integrated(Crect1,Crect2,Crect3,Crect4,Crect5,Crect6)
-	base = model.NewSeatBase(47, 4, "C석")
+	Gspecific := eraser.Position(pos.Absolute{X: 30, Y: 32})
+	integrated3 := eraser.Integrated(Gspecific)
+	base = model.NewSeatBase(30, 28, "G석")
 	blockInput3 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         16,
-		YSize:         10,
+		XSize:         11,
+		YSize:         5,
 		EmptyChecker:  integrated3,
 		NameFormatter: nameFormatter,
 	}
 
+	base = model.NewSeatBase(3, 3, "D석")
+	blockInput4 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         3,
+		YSize:         24,
+		EmptyChecker:  integrated3,
+		NameFormatter: nameFormatter,
+		Reverse: true,
+	}
+
+	pos := eraser.Position(pos.Absolute{X: 39, Y: 3})
+	integrated4 := eraser.Integrated(pos)
+	base = model.NewSeatBase(38, 3, "H석")
+	blockInput5 := group.BlockInput{
+		Criteria:      model.NewSeat(base, 1, 1),
+		XSize:         3,
+		YSize:         24,
+		EmptyChecker:  integrated4,
+		NameFormatter: nameFormatter,
+	}
+
+
 	block1 := group.HorizontalBlock(blockInput)
 	block2 := group.HorizontalBlock(blockInput2)
 	block3 := group.HorizontalBlock(blockInput3)
+	block4 := group.VerticalBlock(blockInput4)
+	block5 := group.VerticalBlock(blockInput5)
 
-	return group.Mixed(block1, block2, block3)
+	return group.Mixed(block1, block2, block3, block4, block5)
 }
 
 
