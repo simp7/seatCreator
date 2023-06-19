@@ -16,60 +16,50 @@ import (
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
-	Arect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 21}, pos.Absolute{X: 5, Y: 21})
-	Arect2 := eraser.Rectangle(pos.Absolute{X: 3, Y: 25}, pos.Absolute{X: 4, Y: 25})
-	Arect3 := eraser.Rectangle(pos.Absolute{X: 3, Y: 26}, pos.Absolute{X: 5, Y: 26})
-	Arect4 := eraser.Rectangle(pos.Absolute{X: 3, Y: 27}, pos.Absolute{X: 6, Y: 27})
-	Arect5 := eraser.Rectangle(pos.Absolute{X: 9, Y: 27}, pos.Absolute{X: 10, Y: 27})
-
-	Aspecific := eraser.Position(pos.Absolute{X: 3,Y: 22}, pos.Absolute{X: 3, Y: 24})
-	integrated1 := eraser.Integrated(Arect1, Aspecific, Arect2,Arect3, Arect4,Arect5)
+	Arect1 := eraser. Rectangle(pos.Absolute{X: 3, Y: 22}, pos.Absolute{X: 3, Y: 26})
+	Arect2 := eraser. Rectangle(pos.Absolute{X: 4, Y: 24}, pos.Absolute{X: 4, Y: 26})
+	Arect3 := eraser. Rectangle(pos.Absolute{X: 5, Y: 25}, pos.Absolute{X: 5, Y: 26})
+	integrated1 := eraser.Integrated(Arect1,Arect2,Arect3)
 	base := model.NewSeatBase(3, 21, "A석")
 	blockInput1 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         15,
-		YSize:         7,
+		XSize:         14,
+		YSize:         6,
 		EmptyChecker:  integrated1,
 		NameFormatter: nameFormatter,
 	}
 
 
-	Brect1 := eraser.Rectangle(pos.Absolute{X: 19, Y: 21}, pos.Absolute{X: 19, Y: 24})
-	Brect2 := eraser.Rectangle(pos.Absolute{X: 39, Y: 21}, pos.Absolute{X: 39, Y: 23})
-	Brect3 := eraser.Rectangle(pos.Absolute{X: 20, Y: 21}, pos.Absolute{X: 20, Y: 22})
-	Brect4 := eraser.Rectangle(pos.Absolute{X: 38, Y: 21}, pos.Absolute{X: 38, Y: 21})
-	Brect5 := eraser.Rectangle(pos.Absolute{X: 28, Y: 26}, pos.Absolute{X: 30, Y: 26})
-	Brect6 := eraser.Rectangle(pos.Absolute{X: 28, Y: 27}, pos.Absolute{X: 30, Y: 27})
-	Bspecific := eraser.Position(pos.Absolute{X: 19, Y: 27})
-	integrated2 := eraser.Integrated(Brect1,Brect2,Brect3,Brect4,Brect5,Brect6,Bspecific)
-	base = model.NewSeatBase(19, 21, "B석")
+	Brect1 := eraser.Rectangle(pos.Absolute{X: 18, Y: 21}, pos.Absolute{X: 18, Y: 25})
+	Brect2 := eraser.Rectangle(pos.Absolute{X: 41, Y: 21}, pos.Absolute{X: 41, Y: 24})
+	Brect3 := eraser.Rectangle(pos.Absolute{X: 19, Y: 21}, pos.Absolute{X: 19, Y: 23})
+	Brect4 := eraser.Rectangle(pos.Absolute{X: 40, Y: 21}, pos.Absolute{X: 40, Y: 22})
+	Brect5 := eraser.Rectangle(pos.Absolute{X: 20, Y: 21}, pos.Absolute{X: 20, Y: 21})
+	integrated2 := eraser.Integrated(Brect1,Brect2,Brect3,Brect4,Brect5)
+	base = model.NewSeatBase(18, 21, "B석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         21,
-		YSize:         7,
+		XSize:         24,
+		YSize:         6,
 		EmptyChecker:  integrated2,
 		NameFormatter: nameFormatter,
 	}
 
-
-	Crect1 := eraser. Rectangle(pos.Absolute{X: 53, Y: 21}, pos.Absolute{X: 55, Y: 21})
-	Crect2 := eraser. Rectangle(pos.Absolute{X: 54, Y: 25}, pos.Absolute{X: 55, Y: 25})
-	Crect3 := eraser. Rectangle(pos.Absolute{X: 53, Y: 26}, pos.Absolute{X: 55, Y: 26})
-	Crect4 := eraser. Rectangle(pos.Absolute{X: 52, Y: 27}, pos.Absolute{X: 55, Y: 27})
-	Crect5 := eraser. Rectangle(pos.Absolute{X: 48, Y: 27}, pos.Absolute{X: 49, Y: 27})
-	Cspecific := eraser. Position(pos.Absolute{X: 55, Y: 22}, pos.Absolute{X: 55, Y: 24})
-	integrated3 := eraser.Integrated(Crect1,Crect2,Cspecific,Crect3,Crect4,Crect5)
-	base = model.NewSeatBase(41, 21, "C석")
+	Crect1 := eraser.Rectangle(pos.Absolute{X: 56, Y: 22}, pos.Absolute{X: 56, Y: 26})
+	Crect2 := eraser.Rectangle(pos.Absolute{X: 55, Y: 24}, pos.Absolute{X: 55, Y: 26})
+	Crect3 := eraser.Rectangle(pos.Absolute{X: 54, Y: 25}, pos.Absolute{X: 54, Y: 26})
+	integrated3 := eraser.Integrated(Crect1,Crect2,Crect3)
+	base = model.NewSeatBase(43, 21, "C석")
 	blockInput3 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         15,
-		YSize:         7,
+		XSize:         14,
+		YSize:         6,
 		EmptyChecker:  integrated3,
 		NameFormatter: nameFormatter,
 	}
 
 
-	base = model.NewSeatBase(4, 3, "L7석")
+	base = model.NewSeatBase(4, 3, "L10석")
 	blockInput4 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         1,
@@ -79,7 +69,7 @@ func ArtriumSmall() model.Group {
 	}
 
 
-	base = model.NewSeatBase(4, 9, "L8석")
+	base = model.NewSeatBase(4, 9, "L11석")
 	blockInput5 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         1,
@@ -89,7 +79,7 @@ func ArtriumSmall() model.Group {
 	}
 
 
-	base = model.NewSeatBase(4, 14, "L6석")
+	base = model.NewSeatBase(4, 14, "L12석")
 	blockInput6 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         1,
@@ -98,7 +88,7 @@ func ArtriumSmall() model.Group {
 		NameFormatter: nameFormatter,
 	}
 
-	base = model.NewSeatBase(3, 16, "L6석")
+	base = model.NewSeatBase(3, 16, "L12석")
 	blockInput11 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 7, 1),
 		XSize:         1,
@@ -108,7 +98,7 @@ func ArtriumSmall() model.Group {
 	}
 
 
-	base = model.NewSeatBase(54, 3, "R4석")
+	base = model.NewSeatBase(55, 3, "R10석")
 	blockInput7 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         1,
@@ -118,7 +108,7 @@ func ArtriumSmall() model.Group {
 	}
 
 
-	base = model.NewSeatBase(54, 9, "R5석")
+	base = model.NewSeatBase(55, 9, "R11석")
 	blockInput8 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         1,
@@ -128,7 +118,7 @@ func ArtriumSmall() model.Group {
 	}
 
 
-	base = model.NewSeatBase(54, 14, "R6석")
+	base = model.NewSeatBase(55, 14, "R12석")
 	blockInput9 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         1,
@@ -138,7 +128,7 @@ func ArtriumSmall() model.Group {
 	}
 
 
-	base = model.NewSeatBase(55, 16, "R6석")
+	base = model.NewSeatBase(56, 16, "R12석")
 	blockInput10 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 7, 1),
 		XSize:         1,
@@ -176,10 +166,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ArtriumSmall() // Put Seating Here
 	target := area.Area{
-		Key:             "3F",
+		Key:             "4F",
 		Seats:           seats,
-		XSize:           53,
-		YSize:           25,
+		XSize:           58,
+		YSize:           24,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
