@@ -17,8 +17,8 @@ func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
 
 	hall := eraser.VerticalHallway(10, 25)
-	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 14}, pos.Absolute{X: 9, Y: 14})
-	rect2 := eraser.Rectangle(pos.Absolute{X: 26, Y: 14}, pos.Absolute{X: 32, Y: 14})
+	rect1 := eraser.Rectangle(pos.Absolute{X: 3, Y: 14}, pos.Absolute{X: 11, Y: 14})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 23, Y: 14}, pos.Absolute{X: 32, Y: 14})
 	integrated1 := eraser.Integrated(hall, rect1, rect2)
 	base := model.NewSeatBase(3, 11, "A석")
 	blockInput1 := group.BlockInput{
@@ -29,49 +29,30 @@ func ArtriumSmall() model.Group {
 		NameFormatter: nameFormatter,
 	}
 
-	base = model.NewSeatBase(1, 3, "BOX석")
+	base = model.NewSeatBase(1, 5, "BOX석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
 		XSize:         1,
-		YSize:         6,
+		YSize:         3,
 		EmptyChecker:  integrated1,
 		NameFormatter: nameFormatter,
 	}
 
-	base = model.NewSeatBase(34, 3, "BOX석")
+	base = model.NewSeatBase(34, 5, "BOX석")
 	blockInput3 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 2),
 		XSize:         1,
-		YSize:         6,
+		YSize:         3,
 		EmptyChecker:  integrated1,
 		NameFormatter: nameFormatter,
-	}
-
-
-	specific := eraser.Position(
-								pos.Absolute{X: 14, Y: 15},
-								pos.Absolute{X: 16, Y: 15},
-								pos.Absolute{X: 18, Y: 15},
-								pos.Absolute{X: 20, Y: 15},
-								pos.Absolute{X: 22, Y: 15},
-	)
-	integrated2 := eraser.Integrated(specific)
-	base = model.NewSeatBase(13, 15, "휠체어석")
-	blockInput4 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 2),
-		XSize:         11,
-		YSize:         1,
-		EmptyChecker:  integrated2,
-		NameFormatter: nameformatter.Prefix('W'),
 	}
 
 
 	block1 := group.HorizontalBlock(blockInput1)
 	block2 := group.VerticalBlock(blockInput2)
 	block3 := group.VerticalBlock(blockInput3)
-	block4 := group.HorizontalBlock(blockInput4)
 
-	return group.Mixed(block1, block2, block3, block4)
+	return group.Mixed(block1, block2, block3)
 }
 
 
@@ -87,10 +68,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ArtriumSmall() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "3F",
 		Seats:           seats,
 		XSize:           32,
-		YSize:           13,
+		YSize:           10,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
