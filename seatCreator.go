@@ -15,42 +15,41 @@ import (
 
 func ArtriumSmall() model.Group {
 
-	hallH := eraser.HorizontalHallway(6)
-	Arect1 := eraser.Rectangle(pos.Absolute{X: 11, Y: 7}, pos.Absolute{X: 14, Y: 7})
-	Crect1 := eraser.Rectangle(pos.Absolute{X: 33, Y: 7}, pos.Absolute{X: 37, Y: 7})
 
-	integrated1 := eraser.Integrated(hallH, Arect1, Crect1)
-	base := model.NewSeatBase(3, 3, "라석")
+	Arect1 := eraser.Rectangle(pos.Absolute{X: 6, Y: 16}, pos.Absolute{X: 10, Y: 16})
+	Brect1 := eraser.Rectangle(pos.Absolute{X: 19, Y: 16}, pos.Absolute{X: 23, Y: 16})
+	integrated1 := eraser.Integrated(Arect1, Brect1)
+	base := model.NewSeatBase(3, 3, "가석")
 	blockInput1 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         12,
-		YSize:         5,
+		XSize:         11,
+		YSize:         14,
 		EmptyChecker:  integrated1,
 		NameFormatter: nameformatter.Prefix('A'),
 		Reverse: true,
 	}
 
-	base = model.NewSeatBase(16, 3, "마석")
+	base = model.NewSeatBase(16, 3, "나석")
 	blockInput2 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         16,
-		YSize:         3,
+		XSize:         11,
+		YSize:         14,
 		EmptyChecker:  integrated1,
 		NameFormatter: nameformatter.Prefix('B'),
-		Reverse: true,
 	}
-
-	base = model.NewSeatBase(33, 3, "바석")
+	
+	Wrect1 := eraser.Rectangle(pos.Absolute{X: 11, Y: 16}, pos.Absolute{X: 18, Y: 16})
+	Wspecific := eraser.Position(pos.Absolute{X: 7, Y: 16}, pos.Absolute{X: 9, Y: 16},pos.Absolute{X: 20, Y: 16}, pos.Absolute{X: 22, Y: 16})
+	integrated2 := eraser.Integrated(Wrect1,Wspecific)
+	base = model.NewSeatBase(6, 16, "휠체어석")
 	blockInput3 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         12,
-		YSize:         5,
-		EmptyChecker:  integrated1,
-		NameFormatter: nameformatter.Prefix('C'),
-		Reverse: true,
+		XSize:         18,
+		YSize:         1,
+		EmptyChecker:  integrated2,
+		NameFormatter: nameformatter.Prefix('W'),
 	}
 
-	
 
 	block1 := group.HorizontalBlock(blockInput1)
 	block2 := group.HorizontalBlock(blockInput2)
@@ -72,10 +71,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ArtriumSmall() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "1F",
 		Seats:           seats,
-		XSize:           42,
-		YSize:           5,
+		XSize:           23,
+		YSize:           16,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
