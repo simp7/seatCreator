@@ -15,51 +15,28 @@ import (
 
 func ArtriumSmall() model.Group {
 	nameFormatter := nameformatter.Standard()
-
-	Bspecific := eraser.Position(pos.Absolute{X: 24, Y: 5},
-		pos.Absolute{X: 24, Y: 7},
-		pos.Absolute{X: 24, Y: 9},
-		pos.Absolute{X: 24, Y: 11},
-		pos.Absolute{X: 24, Y: 13},
-	)
-	Brect := eraser.Rectangle(pos.Absolute{X: 22, Y: 14}, pos.Absolute{X: 24, Y: 14})
-	integrated1 := eraser.Integrated(Bspecific, Brect)
+	
+	hallH := eraser.HorizontalHallway(13)
+	rect1 := eraser.Rectangle(pos.Absolute{X: 7, Y: 4}, pos.Absolute{X: 7, Y: 17})
+	rect2 := eraser.Rectangle(pos.Absolute{X: 20, Y: 4}, pos.Absolute{X: 20, Y: 17})
+	specific := eraser.Position(pos.Absolute{X: 19, Y: 4}, pos.Absolute{X: 19, Y: 6}, pos.Absolute{X: 19, Y: 8}, pos.Absolute{X: 19, Y: 10},
+								pos.Absolute{X: 24, Y: 4}, pos.Absolute{X: 24, Y: 5},
+								pos.Absolute{X: 24, Y: 14}, pos.Absolute{X: 24, Y: 17},
+								pos.Absolute{X: 19, Y: 18})
+	integrated1 := eraser.Integrated(hallH, rect1, rect2, specific)
 	base := model.NewSeatBase(3, 4, "A석")
 	blockInput1 := group.BlockInput{
 		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         6,
-		YSize:         8,
+		XSize:         22,
+		YSize:         15,
 		EmptyChecker:  integrated1,
 		NameFormatter: nameFormatter,
 	}
-
-	base = model.NewSeatBase(10, 4, "B석")
-	blockInput2 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         15,
-		YSize:         11,
-		EmptyChecker:  integrated1,
-		NameFormatter: nameFormatter,
-	}
-
-
-	base = model.NewSeatBase(26, 4, "C석")
-	blockInput3 := group.BlockInput{
-		Criteria:      model.NewSeat(base, 1, 1),
-		XSize:         6,
-		YSize:         8,
-		EmptyChecker:  integrated1,
-		NameFormatter: nameFormatter,
-	}
-
-
 
 	block1 := group.HorizontalBlock(blockInput1)
-	block2 := group.HorizontalBlock(blockInput2)
-	block3 := group.HorizontalBlock(blockInput3)
 
 
-	return group.Mixed(block1, block2, block3)
+	return group.Mixed(block1)
 }
 
 
@@ -75,10 +52,10 @@ func copy(target model.Group) {
 func handler(c *gin.Context) {
 	seats := ArtriumSmall() // Put Seating Here
 	target := area.Area{
-		Key:             "2F",
+		Key:             "1F",
 		Seats:           seats,
-		XSize:           29,
-		YSize:           11,
+		XSize:           22,
+		YSize:           15,
 		BackgroundImage: "",
 		Color:           "#ff9f00",
 	}
